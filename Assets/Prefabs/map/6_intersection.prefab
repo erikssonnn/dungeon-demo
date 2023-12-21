@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2616190618775280846}
   - component: {fileID: 264134339835439108}
   - component: {fileID: 3611935040407949372}
+  - component: {fileID: -3688243323297934640}
   m_Layer: 0
   m_Name: 6_intersection
   m_TagString: Untagged
@@ -99,6 +100,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 538bc8dc0e2243749a624dd43d22ee6c, type: 3}
+--- !u!114 &-3688243323297934640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777400920811768273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73afed2a6bf214849bed7cc1226b7692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  name: intersection
+  origin: {fileID: 7332445001921984545}
+  size: 3.8
+  rotation: {x: 0, y: 0, z: 180}
+  spawnRate: 2
 --- !u!1 &1980342686673787613
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,8 +130,8 @@ GameObject:
   - component: {fileID: 2524143789141968104}
   - component: {fileID: 3822144973278027715}
   m_Layer: 10
-  m_Name: end (1)
-  m_TagString: Untagged
+  m_Name: direction_2
+  m_TagString: Direction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,8 +292,8 @@ GameObject:
   - component: {fileID: 60418639268058967}
   - component: {fileID: 6226670411855313499}
   m_Layer: 10
-  m_Name: end
-  m_TagString: Untagged
+  m_Name: direction_1
+  m_TagString: Direction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

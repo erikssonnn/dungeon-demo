@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 4_end
   prefab: {fileID: 5458712018950522967, guid: 3e8afd172f6492546a7d37823c28ffbc, type: 3}
-  rotation: {x: 0, y: 0, z: 180}
+  rotation: {x: -90, y: 0, z: 0}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 0_corridor
   prefab: {fileID: 4348448315051432459, guid: 0d5a1164f09672d44a76b30f8dd9dbe3, type: 3}
-  rotation: {x: 0, y: 0, z: 180}
+  rotation: {x: -90, y: 0, z: 180}

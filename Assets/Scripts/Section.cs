@@ -1,8 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Custom/Section", fileName = "new Section")]
-public class Section : ScriptableObject {
+public class Section : MonoBehaviour{
+	public int index;
 	public new string name;
-	public GameObject prefab;
+	public GameObject origin;
+	public float size;
 	public Vector3 rotation;
+	public float spawnRate;
 }

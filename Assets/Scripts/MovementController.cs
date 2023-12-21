@@ -7,6 +7,7 @@ public class MovementController : MonoBehaviour {
     public float movementSpeed;
     public float mouseSensitivity = 2;
     public float jumpForce;
+    public float maxStamina = 5.0f;
 
     private readonly float minX = -90f;
     private readonly float maxX = 90f;
@@ -21,14 +22,20 @@ public class MovementController : MonoBehaviour {
     private CharacterController cc;
     private Transform cam = null;
 
+    private float timeSinceSprint = 0.0f;
+    private float stamina = 0.0f;
+    private UiController ui = null;
+
     private void Start() {
         //Right now we lock mouse in here
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         runSpeed = movementSpeed * 1.5f;
+        stamina = maxStamina;
         speed = movementSpeed;
         cc = GetComponent<CharacterController>();
+        ui = UiController.Instance;
 
         if (Camera.main == null)
             throw new Exception("Cant find main camera!");
@@ -36,8 +43,23 @@ public class MovementController : MonoBehaviour {
     }
 
     private void Movement() {
-        speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : movementSpeed;
+        speed = movementSpeed;
 
+        if (Input.GetKey(KeyCode.LeftShift) && (Input.GetAxis("Horizontal") > 0.0f ||Input.GetAxis("Vertical") > 0.0f) && stamina > 0.0f) {
+            timeSinceSprint = 1.0f;
+            stamina -= Time.fixedDeltaTime;
+            speed = runSpeed;
+        }
+
+        if (!(Input.GetKey(KeyCode.LeftShift) && (Input.GetAxis("Horizontal") > 0.0f || Input.GetAxis("Vertical") > 0.0f))) {
+            timeSinceSprint += Time.fixedDeltaTime;
+            timeSinceSprint = Mathf.Clamp(timeSinceSprint, 1.0f, 15.0f);
+            stamina += 0.05f * timeSinceSprint * Time.fixedDeltaTime;
+            stamina = Mathf.Clamp(stamina, 0.0f, maxStamina);
+        }
+
+        ui.staminaBar.fillAmount = stamina / maxStamina;
+        
         float horizontal = Input.GetAxis("Horizontal") * speed;
         float vertical = Input.GetAxis("Vertical") * speed;
 

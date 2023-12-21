@@ -1,94 +1,65 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class GenerationController : MonoBehaviour {
-    [Header("TWEAK: ")] 
+    [Header("TWEAK: ")]
     [SerializeField] private int maxSections = 10;
-    [SerializeField] private float maxDistance = 2f;
     [SerializeField] private int maxRetries = 10;
+    [SerializeField] private bool debug = false;
 
     [Header("ASSIGN: ")] 
-    [SerializeField] private Section[] sections = null;
-    [SerializeField] private Section endSection = null;
-    [SerializeField] private Section startSection = null;
-    
-    [SerializeField] private List<Section> spawnedSections = new List<Section>();
-    [SerializeField] private List<GameObject> spawnedSectionObjects = new List<GameObject>();
+    [SerializeField] private GameObject[] sections = null;
+    [SerializeField] private GameObject endSection = null;
+    [SerializeField] private GameObject startSection = null;
 
+    private List<GameObject> spawnedSections = new List<GameObject>();
     private int cornersInRow = 0;
     private int retries = 0;
-    
+
     private void Start() {
         NullCheck();
-        Generate();
+        //Generate();
     }
 
-    // private void OnDrawGizmos() {
-    //     if (spawnedSectionObjects.Count == 0)
-    //         return;
-    //
-    //     for (int i = 0; i < spawnedSectionObjects.Count; i++) {
-    //         GameObject section1 = spawnedSectionObjects[i];
-    //         Collider col1 = section1.transform.GetComponent<Collider>();
-    //         if (col1 == null) {
-    //             continue;
-    //         }
-    //
-    //         bool intersects = false;
-    //
-    //         for (int k = 0; k < spawnedSectionObjects.Count; k++) {
-    //             if (i == k)
-    //                 continue;
-    //
-    //             GameObject section2 = spawnedSectionObjects[k];
-    //             Collider col2 = section2.transform.GetComponent<Collider>();
-    //
-    //             if (col2 == null)
-    //                 continue;
-    //
-    //             if (col1.bounds.Intersects(col2.bounds)) {
-    //                 intersects = true;
-    //                 break;
-    //             }
-    //         }
-    //
-    //         Gizmos.color = intersects ? Color.red : Color.green;
-    //         Gizmos.DrawWireCube(section1.transform.position, col1.bounds.size);
-    //     }
-    // }
-
     private void OnDrawGizmos() {
-        if (spawnedSectionObjects.Count == 0)
+        if (!debug)
             return;
-    
-        for (int i = 0; i < spawnedSectionObjects.Count; i++) {
+        
+        if (spawnedSections.Count == 0)
+            return;
+
+        for (int i = 0; i < spawnedSections.Count; i++) {
             Color col = Color.green;
-            
-            if(spawnedSectionObjects[i].transform.childCount < 2)
+
+            Section section1 = spawnedSections[i].GetComponent<Section>();
+            if (section1.origin == null)
                 continue;
-    
-            for (int k = 0; k < spawnedSectionObjects.Count; k++) {
-                if(i == k)
-                    continue; 
-                if(spawnedSectionObjects[k].transform.childCount < 2)
+
+            for (int k = 0; k < spawnedSections.Count; k++) {
+                if (i == k)
                     continue;
                 
-                float dist = Vector3.Distance(spawnedSectionObjects[i].transform.TransformPoint(spawnedSectionObjects[i].transform.GetChild(1).transform.localPosition), 
-                    spawnedSectionObjects[k].transform.TransformPoint(spawnedSectionObjects[k].transform.GetChild(1).transform.localPosition));
-                if (dist < maxDistance) {
+                Section section2 = spawnedSections[k].GetComponent<Section>();
+                if (section2.origin == null)
+                    continue;
+
+                float dist = Vector3.Distance(spawnedSections[i].transform.TransformPoint(section1.origin.transform.localPosition),
+                    spawnedSections[k].transform.TransformPoint(section2.origin.transform.localPosition));
+                if (dist < ((section1.size / 2f) + (section2.size / 2f))) {
                     col = Color.red;
                 }
             }
-    
+
             Gizmos.color = col;
-            Gizmos.DrawWireSphere(spawnedSectionObjects[i].transform.GetChild(1).transform.position, maxDistance / 2f);
+            Gizmos.DrawWireSphere(section1.origin.transform.position, section1.size / 2f);
         }
     }
-    
+
     private void NullCheck() {
         if (sections == null || sections.Length == 0) {
             throw new SystemException("sections is empty or not assigned!");
@@ -99,10 +70,66 @@ public class GenerationController : MonoBehaviour {
         ClearLog();
         Clear();
         PlaceStartSection();
-        
-        for (int i = 0; i < maxSections; i++) {
-            Section selectedSection = i == maxSections - 1 ? endSection : sections[Random.Range(0, sections.Length)];
 
+        GameObject direction = GetRandomDirection();
+        if (direction == null) {
+            throw new Exception("Placed start section, but no direction was found!");
+        }
+
+        PlaceAllSections();
+    }
+
+    public void Clear() {
+        foreach (GameObject section in spawnedSections) {
+            DestroyImmediate(section);
+        }
+
+        spawnedSections.Clear();
+    }
+
+    private void PlaceStartSection() {
+        GameObject startObject = Instantiate(startSection, transform, true);
+
+        startObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new Vector3(-90, 0, 0)));
+        spawnedSections.Add(startObject);
+    }
+
+    private GameObject GetRandomSection() {
+        float totalSpawnRate = 0f;
+
+        foreach (GameObject sectionObj in sections) {
+            totalSpawnRate += sectionObj.GetComponent<Section>().spawnRate;
+        }
+
+        float randomValue = Random.Range(0f, totalSpawnRate);
+
+        foreach (GameObject sectionObj in sections) {
+            if (randomValue <= sectionObj.GetComponent<Section>().spawnRate) {
+                return sectionObj;
+            }
+
+            randomValue -= sectionObj.GetComponent<Section>().spawnRate;
+        }
+
+        return sections[0];
+    }
+    
+    private void PlaceAllSections() {
+        for (int i = 0; i < maxSections; i++) {
+            GameObject direction = GetRandomDirection();
+            if (direction == null) {
+                if(debug) Debug.LogWarning("Probably placed endSection, and no more directions were found, breaking loop");
+                break;
+            }
+
+            GameObject selectedSection = endSection;
+            if (i < maxSections - 1) {
+                selectedSection = GetRandomSection();
+                if (selectedSection.GetComponent<Section>().name == "room" && i < (maxSections / 2)) {
+                    selectedSection = sections[0];
+                }
+            }
+            
             if (selectedSection.name == "2_corner" || selectedSection.name == "3_corner") {
                 cornersInRow++;
             } else {
@@ -111,86 +138,106 @@ public class GenerationController : MonoBehaviour {
 
             if (cornersInRow > 3) {
                 selectedSection = sections[0];
-                Debug.LogWarning("Tried to place four corners in a row, changed to corridor");
+                if(debug) Debug.LogWarning("Tried to place four corners in a row, changed to corridor");
             }
-        
-            GameObject newSection = Instantiate(selectedSection.prefab, transform, true);
-            newSection.transform.name = selectedSection.name + ("(" + i + ")");
 
-            Vector3 pos = spawnedSectionObjects.Count == 0 ? Vector3.zero : spawnedSectionObjects[spawnedSectionObjects.Count - 1].transform.GetChild(0).position;
-            Vector3 rot = spawnedSectionObjects.Count == 0
+            GameObject newSection = Instantiate(selectedSection, transform, true);
+            newSection.transform.name = selectedSection.name + ("(" + spawnedSections.Count + ")");
+
+            Vector3 pos = spawnedSections.Count == 0 ? Vector3.zero : direction.transform.position;
+            Vector3 rot = spawnedSections.Count == 0
                 ? new Vector3(-90, 0, 0)
-                : spawnedSectionObjects[spawnedSectionObjects.Count - 1].transform.GetChild(0).eulerAngles + spawnedSections[spawnedSections.Count - 1].rotation;
+                : direction.transform.eulerAngles + newSection.GetComponent<Section>().rotation;
             newSection.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
 
             if (!CanPlaceSection(newSection)) {
                 DestroyImmediate(newSection);
 
-                if (retries < maxRetries) {
-                    retries++;
-                    continue;
-                }
-
-                GameObject endObject = Instantiate(endSection.prefab, transform, true);
+                GameObject endObject = Instantiate(endSection, transform, true);
+                endObject.transform.name = endSection.name + ("(" + spawnedSections.Count + ")");
                 endObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
-                selectedSection = endSection;
-                spawnedSections.Add(selectedSection);
-                spawnedSectionObjects.Add(endObject);
-            
-                print("collided with sections, breaking loop, retries: " + retries);
-                return;
+                spawnedSections.Add(endObject);
+                DestroyImmediate(direction);
+
+                if(debug) print("collided with map at: " + endObject.transform.name);
+                continue;
             }
 
-            retries = 0;
+            spawnedSections.Add(newSection);
+            DestroyImmediate(direction);
+
+            GameObject newDirection = GetRandomDirection();
+            if (newDirection != null) continue;
+            if(debug) Debug.LogWarning("GENERATION IS COMPLETE (No more directions found)");
+            break;
+        }
+
+        if (sections.Length < maxSections - 1 && retries < maxRetries) {
+            retries++;
+            Generate();
+            return;
+        }
         
-            spawnedSections.Add(selectedSection);
-            spawnedSectionObjects.Add(newSection);
+        retries = 0;
+        PlaceFinalEndSections();
+    }
+
+    private void PlaceFinalEndSections() {
+        GameObject[] directions = GameObject.FindGameObjectsWithTag("Direction");
+        if (directions.Length == 0) {
+            return;
+        }
+
+        if(debug) print("Placing " + directions.Length + " endSections");
+        foreach (GameObject dir in directions) {
+            GameObject newSection = Instantiate(endSection, transform, true);
+            newSection.transform.name = endSection.name + ("(" + spawnedSections.Count + ")");
+
+            Vector3 pos = spawnedSections.Count == 0 ? Vector3.zero : dir.transform.position;
+            Vector3 rot = spawnedSections.Count == 0
+                ? new Vector3(-90, 0, 0)
+                : dir.transform.eulerAngles + newSection.GetComponent<Section>().rotation;
+            newSection.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+
+            spawnedSections.Add(newSection);
+        }
+
+        foreach (GameObject dir in directions) {
+            DestroyImmediate(dir);
         }
     }
 
-    public void Clear() {
-        foreach (GameObject section in spawnedSectionObjects) {
-            DestroyImmediate(section);
-        }
-
-        spawnedSections.Clear();
-        spawnedSectionObjects.Clear();
+    private static GameObject GetRandomDirection() {
+        return GameObject.FindWithTag("Direction");
     }
 
-    private void PlaceStartSection() {
-        GameObject startObject = Instantiate(startSection.prefab, transform, true);
-
-        startObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new Vector3(-90, 0, 0)));
-        spawnedSections.Add(startSection);
-        spawnedSectionObjects.Add(startObject);
-    }
-    
-    public void ClearLog() {
-        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
-        var type = assembly.GetType("UnityEditor.LogEntries");
-        var method = type.GetMethod("Clear");
-        method.Invoke(new object(), null);
+    private static void ClearLog() {
+        Assembly assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+        Type type = assembly.GetType("UnityEditor.LogEntries");
+        type.GetMethod("Clear")!.Invoke(new object(), null);
     }
 
     private bool CanPlaceSection(GameObject newSectionObj) {
-        if (spawnedSectionObjects.Count < 2) {
+        if (spawnedSections.Count < 2) {
             return true;
         }
-        
-        if(newSectionObj.transform.childCount < 2)
+
+        Section newSection = newSectionObj.GetComponent<Section>();
+        if (newSection.origin == null)
             return true;
 
-        for (int i = 0; i < spawnedSectionObjects.Count; i++) {
-            if(spawnedSectionObjects[i].transform.childCount < 2)
+        foreach (GameObject spawnedSection in spawnedSections) {
+            Section section = spawnedSection.GetComponent<Section>();
+            if (section.origin == null)
                 continue;
-            
-            float dist = Vector3.Distance(spawnedSectionObjects[i].transform.TransformPoint(spawnedSectionObjects[i].transform.GetChild(1).transform.localPosition), 
-                newSectionObj.transform.TransformPoint(newSectionObj.transform.GetChild(1).transform.localPosition));
-            if (dist < maxDistance) {
+
+            float dist = Vector3.Distance(spawnedSection.transform.TransformPoint(section.origin.transform.localPosition),
+                newSectionObj.transform.TransformPoint(newSection.origin.transform.localPosition));
+            if (dist < ((newSection.size / 2f) + (section.size / 2f))) {
                 return false;
             }
         }
-        
+
         return true;
     }
 }
