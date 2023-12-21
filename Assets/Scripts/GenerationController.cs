@@ -85,6 +85,15 @@ public class GenerationController : MonoBehaviour {
         }
 
         spawnedSections.Clear();
+        
+        int childCount = transform.childCount;
+        if (childCount == 0)
+            return;
+        
+        for (int i = childCount - 1; i >= 0; i--) {
+            Transform child = transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
     }
 
     private void PlaceStartSection() {
@@ -190,8 +199,8 @@ public class GenerationController : MonoBehaviour {
 
         if(debug) print("Placing " + directions.Length + " endSections");
         foreach (GameObject dir in directions) {
-            GameObject newSection = Instantiate(endSection, transform, true);
-            newSection.transform.name = endSection.name + ("(" + spawnedSections.Count + ")");
+            GameObject newSection = Instantiate(sections[5], transform, true); // try to place room
+            newSection.transform.name = sections[5].name + ("(" + spawnedSections.Count + ")");
 
             Vector3 pos = spawnedSections.Count == 0 ? Vector3.zero : dir.transform.position;
             Vector3 rot = spawnedSections.Count == 0
@@ -199,6 +208,17 @@ public class GenerationController : MonoBehaviour {
                 : dir.transform.eulerAngles + newSection.GetComponent<Section>().rotation;
             newSection.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
 
+            // if u cant place room, place end
+            if (!CanPlaceSection(newSection)) {
+                DestroyImmediate(newSection);
+
+                GameObject endObject = Instantiate(endSection, transform, true);
+                endObject.transform.name = endSection.name + ("(" + spawnedSections.Count + ")");
+                endObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+                spawnedSections.Add(endObject);
+                continue;
+            }
+            
             spawnedSections.Add(newSection);
         }
 

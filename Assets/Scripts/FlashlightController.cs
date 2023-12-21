@@ -5,7 +5,7 @@ public class FlashlightController : MonoBehaviour {
 	[SerializeField] private GameObject flashLightObjects = null;
 	[SerializeField] private float maxBattery = 90.0f;
 	
-	private bool active = true;
+	private bool active = false;
 	private float battery = 0.0f;
 	private UiController ui = null;
 
@@ -15,6 +15,7 @@ public class FlashlightController : MonoBehaviour {
 	}
 
 	private void NullChecker() {
+		active = false;
 		ui = UiController.Instance;
 		if (flashLightObjects == null) {
 			throw new Exception("flashLightObjects is null on " + this);
