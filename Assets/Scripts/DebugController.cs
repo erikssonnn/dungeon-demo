@@ -7,12 +7,13 @@ public class DebugController : MonoBehaviour {
     [SerializeField] private GameObject debugObject = null;
 
     public static DebugController Instance;
-    public List<string> DebugValues { get; set; } = new List<string>();
 
     private Camera cam = null;
     private bool debug = false;
     private bool paused = false;
 
+    private CharacterController characterController = null;
+    
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(this.gameObject);
@@ -27,6 +28,10 @@ public class DebugController : MonoBehaviour {
         cam = Camera.main;
         if (cam == null) {
             throw new Exception("Cant find main camera");
+        }
+        characterController = FindObjectOfType<CharacterController>();
+        if (characterController == null) {
+            throw new Exception("Cant find CharacterController");
         }
     }
 
@@ -66,7 +71,7 @@ public class DebugController : MonoBehaviour {
     private void OnGUI() {
         if (!debug)
             return;
-        string debugString = string.Join("\n", DebugValues);
+        string debugString = "vel: " + characterController.velocity.magnitude.ToString("F2");
         GUI.Label(new Rect(10, 10, 100, 100), debugString);
     }
 }
