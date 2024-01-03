@@ -116,7 +116,7 @@ MonoBehaviour:
   origin: {fileID: 2701667508367259414}
   size: 3.8
   rotation: {x: 0, y: 0, z: 180}
-  spawnRate: 3
+  spawnRate: 4
 --- !u!1 &2701667508367259414
 GameObject:
   m_ObjectHideFlags: 0

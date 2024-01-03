@@ -113,7 +113,7 @@ MonoBehaviour:
   index: 4
   name: end
   origin: {fileID: 7263586379035956335}
-  size: 1
+  size: 0.2
   rotation: {x: 0, y: 0, z: -180}
   spawnRate: 0
 --- !u!1 &7263586379035956335

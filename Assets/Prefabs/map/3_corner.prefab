@@ -278,4 +278,4 @@ MonoBehaviour:
   origin: {fileID: 2395100395469826730}
   size: 3.8
   rotation: {x: 0, y: 0, z: 180}
-  spawnRate: 3
+  spawnRate: 4

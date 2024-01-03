@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UiController : MonoBehaviour {
     public Image staminaBar = null;
     public Image batteryBar = null;
+    public Image interactImage = null;
 
     private static UiController instance;
 
@@ -31,5 +32,7 @@ public class UiController : MonoBehaviour {
             throw new Exception("staminaBar image is null");
         if (batteryBar == null)
             throw new Exception("batteryBar image is null");
+        if (interactImage == null)
+            throw new Exception("interactImage image is null");
     }
 }

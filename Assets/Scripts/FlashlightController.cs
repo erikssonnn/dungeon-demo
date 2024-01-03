@@ -32,7 +32,7 @@ public class FlashlightController : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetKeyDown(KeyCode.F)) {
+		if (Input.GetMouseButtonDown(1)) {
 			ToggleFlashlight();
 		}
 	}

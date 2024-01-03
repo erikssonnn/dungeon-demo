@@ -92,7 +92,7 @@ public class GenerationController : MonoBehaviour {
         
         for (int i = childCount - 1; i >= 0; i--) {
             Transform child = transform.GetChild(i);
-            Destroy(child.gameObject);
+            DestroyImmediate(child.gameObject);
         }
     }
 
@@ -189,6 +189,41 @@ public class GenerationController : MonoBehaviour {
         
         retries = 0;
         PlaceFinalEndSections();
+        RemoveDuplicateEndSections();
+    }
+
+    private void RemoveDuplicateEndSections() {
+        List<GameObject> objectsToRemove = new List<GameObject>();
+
+        for (int i = spawnedSections.Count - 1; i >= 0; i--) {
+            Section section1 = spawnedSections[i].GetComponent<Section>();
+            if (section1.name != "end") {
+                continue;
+            }
+
+            for (int k = spawnedSections.Count - 1; k >= 0; k--) {
+                if (i == k)
+                    continue;
+                
+                Section section2 = spawnedSections[k].GetComponent<Section>();
+                if (section2.name != "end") {
+                    continue;
+                }
+
+                float dist = Vector3.Distance(spawnedSections[i].transform.position, spawnedSections[k].transform.position);
+                if (dist < ((section1.size / 2f) + (section2.size / 2f))) {
+                    objectsToRemove.Add(spawnedSections[i]);
+                    objectsToRemove.Add(spawnedSections[k]);
+                    print("DESTROY END SECTIONS");
+                }
+            }
+        }
+
+        for (int i = objectsToRemove.Count - 1; i >= 0; i--) {
+            spawnedSections.Remove(objectsToRemove[i]);
+            DestroyImmediate(objectsToRemove[i]);
+        }
+        objectsToRemove.Clear();
     }
 
     private void PlaceFinalEndSections() {
@@ -215,6 +250,7 @@ public class GenerationController : MonoBehaviour {
                 GameObject endObject = Instantiate(endSection, transform, true);
                 endObject.transform.name = endSection.name + ("(" + spawnedSections.Count + ")");
                 endObject.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+
                 spawnedSections.Add(endObject);
                 continue;
             }

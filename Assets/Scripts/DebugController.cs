@@ -1,11 +1,13 @@
 using System;
-using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DebugController : MonoBehaviour {
     [SerializeField] private GameObject debugObject = null;
 
     public static DebugController Instance;
+    public List<string> DebugValues { get; set; } = new List<string>();
 
     private Camera cam = null;
     private bool debug = false;
@@ -59,5 +61,12 @@ public class DebugController : MonoBehaviour {
         else {
             cam.cullingMask &= ~(1 << LayerMask.NameToLayer("Debug"));
         }
+    }
+
+    private void OnGUI() {
+        if (!debug)
+            return;
+        string debugString = string.Join("\n", DebugValues);
+        GUI.Label(new Rect(10, 10, 100, 100), debugString);
     }
 }
