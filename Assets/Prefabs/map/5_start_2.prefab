@@ -135,6 +135,7 @@ MonoBehaviour:
   size: 1
   rotation: {x: 0, y: 0, z: 180}
   spawnRate: 0
+  optionalProps: []
 --- !u!1 &1637438084427984072
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1119462244612442564
 Transform:
   m_ObjectHideFlags: 0
@@ -808,7 +809,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 0.8726415, a: 1}
   m_Intensity: 0.5
-  m_Range: 2
+  m_Range: 12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
