@@ -5869,6 +5869,7 @@ MonoBehaviour:
   lm:
     serializedVersion: 2
     m_Bits: 513
+  spawnCheckInterval: 30
 --- !u!95 &1889511753
 Animator:
   serializedVersion: 3

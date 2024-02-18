@@ -66,6 +66,10 @@ public class GenerationController : MonoBehaviour {
         }
     }
 
+    public GameObject GetRandomMapSection() {
+        return sections[Random.Range(0, sections.Length)].GetComponent<Section>().origin;
+    }
+
     public void Generate() {
         ClearLog();
         Clear();
