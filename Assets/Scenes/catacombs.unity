@@ -14,13 +14,13 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0, g: 0, b: 0, a: 1}
-  m_FogMode: 2
-  m_FogDensity: 0.05
+  m_Fog: 1
+  m_FogColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  m_FogMode: 1
+  m_FogDensity: 0.62
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
+  m_AmbientSkyColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -1691,14 +1691,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574464273}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.7071079}
+  m_LocalRotation: {x: -0, y: 0.71618617, z: -0, w: 0.69790936}
   m_LocalPosition: {x: 0, y: 1, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 855338312}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 91.481, z: 0}
 --- !u!1 &585671493
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,6 +2433,7 @@ GameObject:
   - component: {fileID: 855338315}
   - component: {fileID: 855338314}
   - component: {fileID: 855338313}
+  - component: {fileID: 855338316}
   m_Layer: 8
   m_Name: camera
   m_TagString: MainCamera
@@ -2467,8 +2468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f197dba5e70a994c8b18fb904825c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat: {fileID: 2100000, guid: bee390cbf3b42a14aa1740ebba7db723, type: 2}
-  blockCount: 8
+  pixelSize: 280
+  colorPrecision: 215
 --- !u!81 &855338314
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2520,6 +2521,50 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &855338316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855338311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f8620042f28cd49a93a34929d6a4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: bee390cbf3b42a14aa1740ebba7db723, type: 2}
+  whiteNoiseFrequency: 0
+  whiteNoiseLength: 0
+  screenJumpFrequency: 0
+  screenJumpLength: 0
+  screenJumpMinLevel: 0
+  screenJumpMaxLevel: 0
+  flickeringStrength: 0.002
+  flickeringCycle: 111
+  isSlippage: 1
+  isSlippageNoise: 1
+  slippageStrength: 0.005
+  slippageInterval: 1
+  slippageScrollSpeed: 33
+  slippageSize: 11
+  chromaticAberrationStrength: 0.0025
+  isChromaticAberration: 1
+  isMultipleGhost: 1
+  multipleGhostStrength: 0.01
+  isScanline: 0
+  isMonochrome: 0
+  isLetterBox: 0
+  isLetterBoxEdgeBlur: 0
+  letterBoxType: 0
+  isFilmDirt: 0
+  filmDirtTex: {fileID: 0}
+  isDecalTex: 0
+  decalTex: {fileID: 0}
+  decalTexPos: {x: 0, y: 0}
+  decalTexScale: {x: 0, y: 0}
+  isLowResolution: 1
+  resolutions: {x: 0, y: 0}
 --- !u!1 &903378884
 GameObject:
   m_ObjectHideFlags: 0

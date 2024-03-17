@@ -1,28 +1,40 @@
+using System;
 using UnityEngine;
 
+[ExecuteInEditMode, ImageEffectAllowedInSceneView]
 public class PostProcessing : MonoBehaviour {
-    [SerializeField] private Material mat;
-    [SerializeField] private int blockCount;
+    [SerializeField] private int pixelSize = 16;
+    [SerializeField] private int colorPrecision = 32;
 
     private Camera cam = null;
-    private Vector2 referenceResolution = new Vector2(1920, 1080);
+    private Material pixelateMat = null;
+    private Material colorMat = null;
+
+    private void Start() {
+        pixelateMat = new Material(Shader.Find("Hidden/pixelate"));
+        colorMat = new Material(Shader.Find("Hidden/colorgrading"));
+    }
 
     private void Awake() {
         cam = Camera.main;
         if (cam == null) {
-            throw new System.Exception("Main camera not found!");
+            throw new Exception("Main camera not found!");
         }
     }
 
-    private void OnRenderImage(RenderTexture source, RenderTexture dest) {
-        float k = cam.aspect;
-        Vector2 count = new Vector2(Screen.width / blockCount, Screen.height / (blockCount / k));
-        Vector2 size = new Vector2(1.0f / count.x, 1.0f / count.y);
+    private void OnRenderImage(RenderTexture source, RenderTexture destination) {
+        if (colorMat == null || pixelateMat == null) {
+            Graphics.Blit(source, destination);
+            throw new Exception("Cant find colorMat or pixelateMat");
+        }
 
-        mat.SetVector("block_count", count);
-        mat.SetVector("block_size", size);
-        mat.SetTexture("main_tex", source);
+        RenderTexture tempTexture = RenderTexture.GetTemporary(source.width, source.height);
 
-        Graphics.Blit(source, dest, mat);
+        colorMat.SetFloat("_Colors", colorPrecision);
+        Graphics.Blit(source, tempTexture, colorMat);
+
+        pixelateMat.SetInt("_PixelSize", pixelSize);
+        Graphics.Blit(tempTexture, destination, pixelateMat);
+        RenderTexture.ReleaseTemporary(tempTexture);
     }
 }

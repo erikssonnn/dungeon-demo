@@ -1,35 +1,48 @@
-Shader "CUSTOM/pixelate" {
-    Properties {
-        main_tex ("Texture", 2D) = "white" {}
+Shader "Hidden/pixelate"
+{
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
+        _PixelSize ("Pixel Size", Int) = 16
     }
-
-    SubShader {
-        Tags {
+    SubShader
+    {
+        Tags
+        {
             "RenderType"="Opaque"
         }
-
-        Cull Off
-        ZWrite Off
-        ZTest Always
-
-        Pass {
+        Pass
+        {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex vert
             #pragma fragment frag
-
             #include "UnityCG.cginc"
-
-            sampler2D main_tex;
-            float2 block_count;
-            float2 block_size;
-
-            fixed4 frag(const v2f_img i) : SV_Target
+            uniform sampler2D _MainTex;
+            uniform int _PixelSize;
+            struct appdata
             {
-                const float2 block_pos = floor(i.uv * block_count);
-                const float2 block_center = block_pos * block_size + block_size * 0.5f;
-
-                float4 tex = tex2D(main_tex, block_center);
-                return tex;
+                float4 vertex : POSITION;
+                float2 texcoord : TEXCOORD0;
+            };
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD1;
+            };
+            v2f vert(appdata v)
+            {
+                v2f o;
+                o.uv = v.texcoord;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                return o;
+            }
+            half4 frag(v2f i) : SV_Target
+            {
+                float pixelWidth = 1.0f / _PixelSize;
+                float pixelHeight = 1.0f / _PixelSize;
+                half2 uv = half2((int)(i.uv.x / pixelWidth) * pixelWidth, (int)(i.uv.y / pixelHeight) * pixelHeight);
+                half4 col = tex2D(_MainTex, uv);
+                return col;
             }
             ENDCG
         }
