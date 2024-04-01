@@ -18,6 +18,26 @@ public class ScreenShake : MonoBehaviour {
     private Vector3 camStartRot = Vector3.zero;
     private Vector3 camDesiredRot = Vector3.zero;
 
+    private static ScreenShake instance;
+
+    public static ScreenShake Instance {
+        get {
+            instance = FindObjectOfType<ScreenShake>();
+            if (instance != null) return instance;
+            GameObject obj = new GameObject("ScreenShake");
+            instance = obj.AddComponent<ScreenShake>();
+            return instance;
+        }
+    }
+
+    private void Awake() {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            instance = this;
+        }
+    }
+    
     private void Start() {
         if(shakeOrigin == null || shakeCam == null) {
             Debug.Break();

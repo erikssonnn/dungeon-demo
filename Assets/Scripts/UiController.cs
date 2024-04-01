@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UiController : MonoBehaviour {
-    public Image staminaBar = null;
-    public Image batteryBar = null;
+    public Image healthBar = null;
     public Image interactImage = null;
+    public Text ammoText = null;
 
     private static UiController instance;
 
@@ -28,10 +28,8 @@ public class UiController : MonoBehaviour {
     }
 
     private void Start() {
-        if (staminaBar == null)
+        if (healthBar == null)
             throw new Exception("staminaBar image is null");
-        if (batteryBar == null)
-            throw new Exception("batteryBar image is null");
         if (interactImage == null)
             throw new Exception("interactImage image is null");
     }

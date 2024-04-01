@@ -1,101 +1,104 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Timeline;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
+public enum State {
+    IDLE,
+    CHASE,
+    DEAD
+}
+
 public class MonsterController : MonoBehaviour {
     [SerializeField] private LayerMask lm = 0;
-    [SerializeField] private float spawnCheckInterval = 0.0f;
+    [SerializeField] private GameObject bloodPrefab = null;
 
-    private new Camera camera = null;
-    private bool spawned = false;
-    private float spawnChance = 0.0f;
-    private new SkinnedMeshRenderer renderer = null;
-    private GenerationController generationController = null;
-    private float spawnTimer = 0.0f;
-
+    private State state = State.IDLE;
+    private Animator anim = null;
+    private NavMeshAgent agent = null;
+    private Transform player = null;
+    private int health = 100;
+    
     private void Start() {
         NullChecker();
-        spawned = false;
-        renderer.enabled = false;
     }
 
     private void NullChecker() {
-        generationController = FindObjectOfType<GenerationController>();
-        if (generationController == null)
-            throw new Exception("Cant find GenerationController.cs");
-
-        renderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        if (renderer == null)
-            throw new Exception("Cant find MeshRenderer on " + this);
-
-        camera = Camera.main;
-        if (camera == null)
-            throw new Exception("Cant find main camera on " + this);
+        player = FindObjectOfType<MovementController>().transform;
+        if (player == null)
+            throw new Exception("Cant find player on monster");
+        anim = GetComponentInChildren<Animator>();
+        if (anim == null)
+            throw new Exception("Cant find Animator");
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+            throw new Exception("Cant find NavMeshAgent");
     }
 
-    private bool IsObjectInCameraView() {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
-        bool viewCheck = GeometryUtility.TestPlanesAABB(planes, GetComponentInChildren<Collider>().bounds);
-        Physics.Linecast(transform.position, camera.transform.position, out RaycastHit hit, lm);
-        bool rayCheck = hit.collider == null;
-        return viewCheck && rayCheck;
-    }
+    // private bool IsObjectInCameraView() {
+    //     Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
+    //     bool viewCheck = GeometryUtility.TestPlanesAABB(planes, spawnChecker.GetComponentInChildren<Collider>().bounds);
+    //     Physics.Linecast(spawnChecker.transform.position, camera.transform.position, out RaycastHit hit, lm);
+    //     bool rayCheck = hit.collider == null;
+    //     return viewCheck && rayCheck;
+    // }
 
     private void Update() {
-        if (spawned)
+        // debug
+        if (Input.GetKeyDown((KeyCode.M))) {
+            UpdateState(State.IDLE);
+        }
+
+        if (Input.GetKeyDown((KeyCode.N))) {
+            UpdateState(State.CHASE);
+        }
+
+        Chase();
+    }
+
+    private void Chase() {
+        if (state != State.CHASE)
             return;
+        agent.SetDestination(player.position);
 
-        IncreaseSpawnChance();
-        spawnTimer += Time.fixedDeltaTime;
-
-        if (spawnTimer > spawnCheckInterval)
-            CheckIfToSpawn();
-    }
-
-    private void IncreaseSpawnChance() {
-        spawnChance += (0.01f * Time.fixedDeltaTime);
-        spawnChance = Mathf.Clamp(spawnChance, 0, 100);
-    }
-
-    private void CheckIfToSpawn() {
-        print("CHECK TO SPAWN");
-        spawnTimer = 0.0f;
-        
-        float r = Random.value;
-        if (r <= (spawnChance * 0.01f)) {
-            Debug.Log(r + " <= " + (spawnChance * 0.01f));
-            Spawn();
+        Vector3 dir = transform.position - player.transform.position;
+        Ray forwardRay = new Ray(transform.position + new Vector3(0, 1, 0), -dir.normalized * 2f);
+        Debug.DrawRay(forwardRay.origin, forwardRay.direction, Color.green);
+        if (Physics.Raycast(forwardRay, out RaycastHit hit, 2f, lm)) {
+            Attack();
         }
     }
 
-    private Vector3 GetSpawnLocation() {
-        return generationController.GetRandomMapSection().transform.position;
+    public void UpdateHealth(int amount) {
+        health += amount;
+        if(health <= 0)
+            Die(true);
     }
 
-    private void Spawn() {
-        spawned = true;
-        spawnChance = 0.0f;
-        Debug.Log("TRYING TO SPAWN MONSTER...");
+    private void Attack() {
+        GameController.Instance.UpdateHealth(-10);
+        Die(false);
+    }
 
-        Vector3 position = GetSpawnLocation();
-        transform.position = position;
-        if (IsObjectInCameraView()) {
-            print("monster in view, check another position");
-            Spawn();
-            return;
-        }
+    private void Die(bool fromPlayer) {
+        if(fromPlayer)
+            ScoreController.Instance.UpdateScore(10);
+            
+        UpdateState(State.DEAD);
+        GameObject blood = Instantiate(bloodPrefab);
+        blood.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        Destroy(gameObject);
+    }
 
-        renderer.enabled = true;
-        Debug.LogWarning("SPAWNED MONSTER COMPLETE AT " + position);
+    private void UpdateState(State newState) {
+        state = newState;
+        anim.SetBool("Chasing", state == State.CHASE);
+        agent.SetDestination(state == State.CHASE ? player.position : transform.position);
     }
 
     private void OnGUI() {
-        string str = IsObjectInCameraView() + "\n" +
-                     transform.position + "\n" +
-                     "Spawn chance: " + spawnChance + "\n" +
-                     "Spawn timer: " + spawnTimer + "\n"
-            ;
-        GUI.Label(new Rect(10, 10, 500, 100), str);
+        GUI.Label(new Rect(0, 0, 100, 100), state.ToString());
     }
 }

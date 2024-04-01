@@ -39,6 +39,6 @@ public class ScoreController : MonoBehaviour {
 		if (score < 0)
 			score = 0;
 
-		scoreText.text = "$" + score;
+		scoreText.text = score.ToString("F0");
 	}
 }

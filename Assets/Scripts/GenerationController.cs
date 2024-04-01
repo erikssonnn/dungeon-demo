@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,15 +8,17 @@ using Vector3 = UnityEngine.Vector3;
 public class GenerationController : MonoBehaviour {
     [Header("TWEAK: ")]
     [SerializeField] private int maxSections = 10;
+
     [SerializeField] private int maxRetries = 10;
     [SerializeField] private bool debug = false;
 
-    [Header("ASSIGN: ")] 
+    [Header("ASSIGN: ")]
     [SerializeField] private GameObject[] sections = null;
+
     [SerializeField] private GameObject endSection = null;
     [SerializeField] private GameObject startSection = null;
 
-    private List<GameObject> spawnedSections = new List<GameObject>();
+    public List<GameObject> spawnedSections = new List<GameObject>();
     private int cornersInRow = 0;
     private int retries = 0;
 
@@ -29,7 +30,7 @@ public class GenerationController : MonoBehaviour {
     private void OnDrawGizmos() {
         if (!debug)
             return;
-        
+
         if (spawnedSections.Count == 0)
             return;
 
@@ -43,7 +44,7 @@ public class GenerationController : MonoBehaviour {
             for (int k = 0; k < spawnedSections.Count; k++) {
                 if (i == k)
                     continue;
-                
+
                 Section section2 = spawnedSections[k].GetComponent<Section>();
                 if (section2.origin == null)
                     continue;
@@ -66,8 +67,19 @@ public class GenerationController : MonoBehaviour {
         }
     }
 
+
     public GameObject GetRandomMapSection() {
-        return sections[Random.Range(0, sections.Length)].GetComponent<Section>().origin;
+        List<GameObject> validSections = new List<GameObject>();
+
+        foreach (GameObject section in spawnedSections) {
+            Section sec = section.GetComponent<Section>();
+            if (sec.name == "intersection" || sec.name == "corridor") {
+                validSections.Add(section);
+            }
+        }
+
+        print(validSections.Count);
+        return validSections.Count == 0 ? null : validSections[Random.Range(0, validSections.Count)];
     }
 
     public void Generate() {
@@ -89,11 +101,11 @@ public class GenerationController : MonoBehaviour {
         }
 
         spawnedSections.Clear();
-        
+
         int childCount = transform.childCount;
         if (childCount == 0)
             return;
-        
+
         for (int i = childCount - 1; i >= 0; i--) {
             Transform child = transform.GetChild(i);
             DestroyImmediate(child.gameObject);
@@ -126,12 +138,12 @@ public class GenerationController : MonoBehaviour {
 
         return sections[0];
     }
-    
+
     private void PlaceAllSections() {
         for (int i = 0; i < maxSections; i++) {
             GameObject direction = GetRandomDirection();
             if (direction == null) {
-                if(debug) Debug.LogWarning("Probably placed endSection, and no more directions were found, breaking loop");
+                if (debug) Debug.LogWarning("Probably placed endSection, and no more directions were found, breaking loop");
                 break;
             }
 
@@ -142,7 +154,7 @@ public class GenerationController : MonoBehaviour {
                     selectedSection = sections[0];
                 }
             }
-            
+
             if (selectedSection.name == "2_corner" || selectedSection.name == "3_corner") {
                 cornersInRow++;
             } else {
@@ -151,7 +163,7 @@ public class GenerationController : MonoBehaviour {
 
             if (cornersInRow > 3) {
                 selectedSection = sections[0];
-                if(debug) Debug.LogWarning("Tried to place four corners in a row, changed to corridor");
+                if (debug) Debug.LogWarning("Tried to place four corners in a row, changed to corridor");
             }
 
             GameObject newSection = Instantiate(selectedSection, transform, true);
@@ -172,7 +184,7 @@ public class GenerationController : MonoBehaviour {
                 spawnedSections.Add(endObject);
                 DestroyImmediate(direction);
 
-                if(debug) print("collided with map at: " + endObject.transform.name);
+                if (debug) print("collided with map at: " + endObject.transform.name);
                 continue;
             }
 
@@ -181,7 +193,7 @@ public class GenerationController : MonoBehaviour {
 
             GameObject newDirection = GetRandomDirection();
             if (newDirection != null) continue;
-            if(debug) Debug.LogWarning("GENERATION IS COMPLETE (No more directions found)");
+            if (debug) Debug.LogWarning("GENERATION IS COMPLETE (No more directions found)");
             break;
         }
 
@@ -190,7 +202,7 @@ public class GenerationController : MonoBehaviour {
             Generate();
             return;
         }
-        
+
         retries = 0;
         PlaceFinalEndSections();
         RemoveDuplicateEndSections();
@@ -208,7 +220,7 @@ public class GenerationController : MonoBehaviour {
             for (int k = spawnedSections.Count - 1; k >= 0; k--) {
                 if (i == k)
                     continue;
-                
+
                 Section section2 = spawnedSections[k].GetComponent<Section>();
                 if (section2.name != "end") {
                     continue;
@@ -227,6 +239,7 @@ public class GenerationController : MonoBehaviour {
             spawnedSections.Remove(objectsToRemove[i]);
             DestroyImmediate(objectsToRemove[i]);
         }
+
         objectsToRemove.Clear();
     }
 
@@ -236,7 +249,7 @@ public class GenerationController : MonoBehaviour {
             return;
         }
 
-        if(debug) print("Placing " + directions.Length + " endSections");
+        if (debug) print("Placing " + directions.Length + " endSections");
         foreach (GameObject dir in directions) {
             GameObject newSection = Instantiate(sections[5], transform, true); // try to place room
             newSection.transform.name = sections[5].name + ("(" + spawnedSections.Count + ")");
@@ -258,7 +271,7 @@ public class GenerationController : MonoBehaviour {
                 spawnedSections.Add(endObject);
                 continue;
             }
-            
+
             spawnedSections.Add(newSection);
         }
 
