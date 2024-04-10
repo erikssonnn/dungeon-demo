@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Timeline;
@@ -23,7 +24,12 @@ public class MonsterController : MonoBehaviour {
     
     private void Start() {
         NullChecker();
-        UpdateState(State.CHASE);
+        
+        GetComponentInChildren<Collider>().enabled = false;
+        agent.enabled = false;
+        StartCoroutine(FinishSpawnAnimation());
+
+        // UpdateState(State.CHASE);
     }
 
     private void NullChecker() {
@@ -59,6 +65,15 @@ public class MonsterController : MonoBehaviour {
         Chase();
     }
 
+    private IEnumerator FinishSpawnAnimation() {
+        yield return new WaitForSeconds(2.5f);
+        GetComponentInChildren<Collider>().enabled = true;
+        agent.enabled = true;
+
+        UpdateState(State.CHASE);
+        print("done");
+    }
+    
     private void Chase() {
         if (state != State.CHASE)
             return;

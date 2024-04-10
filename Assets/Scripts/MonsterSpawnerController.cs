@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 public class MonsterSpawnerController : MonoBehaviour {
 	[SerializeField] private GameObject monsterPrefab = null;
+	[SerializeField] private GameObject portalPrefab = null;
 	[SerializeField] private int distribution = 0;
 	[SerializeField] private LayerMask lm = 0;
 
@@ -29,6 +30,16 @@ public class MonsterSpawnerController : MonoBehaviour {
 
 	private void Update() {
 		MonsterSpawnerCheck();
+		DebugSpawnMonster();
+	}
+
+	private void DebugSpawnMonster() {
+		Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+		if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity))
+			return;
+		if (Input.GetKeyDown(KeyCode.M)) {
+			SpawnMonster(hit.point);
+		}
 	}
 
 	private void MonsterSpawnerCheck() {
@@ -38,7 +49,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 		spawnTimer += Time.deltaTime;
 		if (spawnTimer > spawnInterval) {
 			spawnTimer = 0;
-			SpawnMonster();
+			CheckPosition();
 		}
 	}
 
@@ -46,7 +57,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 		return Vector3.Distance(pos, player.position) < 5;
 	}
 
-	private void SpawnMonster() {
+	private void CheckPosition() {
 		Vector3 rayPos = new Vector3(Random.Range(0, 100), 100, Random.Range(0, 100));
 		Ray ray = new Ray(rayPos, Vector3.down * 1000);
 
@@ -55,15 +66,21 @@ public class MonsterSpawnerController : MonoBehaviour {
 		
 		Vector3 pos = new Vector3(hit.point.x, 0, hit.point.z);
 		if (TooCloseToPlayer(pos)) {
-			SpawnMonster();
+			CheckPosition();
 			return;
 		}
 
 		if (Vector3.Distance(pos, previousPos) < distribution) {
-			SpawnMonster();
+			CheckPosition();
 			return;
 		}
 
+		SpawnMonster(pos);
+	}
+
+	private void SpawnMonster(Vector3 pos) {
+		Instantiate(portalPrefab, pos, Quaternion.identity);
+		
 		GameObject newMonster = Instantiate(monsterPrefab, pos, Quaternion.identity);
 		newMonster.transform.SetParent(transform, true);
 		spawnedMonsters.Add(newMonster);
