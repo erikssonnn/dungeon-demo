@@ -72,6 +72,8 @@ public class RoomGenerationController : MonoBehaviour {
     private Tile[,] grid = null;
     private int retries = 0;
 
+    public int GetMapSize() => mapSize;
+    
     private void OnDrawGizmos() {
         if (drawGizmos) {
             Gizmos.DrawCube(transform.position + new Vector3(Mathf.RoundToInt(mapSize / 2) - 0.5f,

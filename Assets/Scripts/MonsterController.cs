@@ -23,6 +23,7 @@ public class MonsterController : MonoBehaviour {
     
     private void Start() {
         NullChecker();
+        UpdateState(State.CHASE);
     }
 
     private void NullChecker() {
@@ -47,14 +48,14 @@ public class MonsterController : MonoBehaviour {
 
     private void Update() {
         // debug
-        if (Input.GetKeyDown((KeyCode.M))) {
-            UpdateState(State.IDLE);
-        }
-
-        if (Input.GetKeyDown((KeyCode.N))) {
-            UpdateState(State.CHASE);
-        }
-
+        // if (Input.GetKeyDown((KeyCode.M))) {
+        //     UpdateState(State.IDLE);
+        // }
+        //
+        // if (Input.GetKeyDown((KeyCode.N))) {
+        //     UpdateState(State.CHASE);
+        // }
+    
         Chase();
     }
 
