@@ -55,7 +55,7 @@ public class MovementController : MonoBehaviour {
         cameraDefaultPos = cam.transform.localPosition;
         cc = GetComponent<CharacterController>();
     }
-    
+
     private void Update() {
         Movement();
         CameraRotation();
@@ -69,11 +69,11 @@ public class MovementController : MonoBehaviour {
 
         if (dist > 0.1f) {
             transform.position = Vector3.MoveTowards(transform.position, pos, step);
-            cam.fieldOfView = dist >= half ? Mathf.Lerp(cam.fieldOfView, endFov, step * 0.25f) : Mathf.Lerp(cam.fieldOfView, startFov, step * 0.5f);
+            // cam.fieldOfView = dist >= half ? Mathf.Lerp(cam.fieldOfView, endFov, step * 0.25f) : Mathf.Lerp(cam.fieldOfView, startFov, step * 0.5f);
         } else {
             positioningList.Remove(positioningList[0]);
             half = 0.0f;
-            cam.fieldOfView = startFov;
+            // cam.fieldOfView = startFov;
             cc.enabled = true;
         }
     }
@@ -165,7 +165,7 @@ public class MovementController : MonoBehaviour {
         } else {
             pos = new Vector3(hit.point.x - newDir.x * cc.radius, transform.position.y, hit.point.z - newDir.z * cc.radius);
         }
-        
+
         startFov = cam.fieldOfView;
         positioningList.Add(pos);
         endFov = cam.fieldOfView + dashFov;
