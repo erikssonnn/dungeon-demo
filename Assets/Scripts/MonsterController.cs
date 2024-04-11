@@ -110,8 +110,4 @@ public class MonsterController : MonoBehaviour {
         anim.SetBool("Chasing", state == State.CHASE);
         agent.SetDestination(state == State.CHASE ? player.position : transform.position);
     }
-
-    private void OnGUI() {
-        GUI.Label(new Rect(0, 0, 100, 100), state.ToString());
-    }
 }

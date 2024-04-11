@@ -55,6 +55,7 @@ public class DebugController : MonoBehaviour {
         FindObjectOfType<MovementController>().enabled = !paused;
         Cursor.lockState = paused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = paused;
+        Time.timeScale = paused ? 0.0f : 1.0f;
     }
 
     private void ToggleDebug() {

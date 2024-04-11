@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour {
@@ -58,6 +59,7 @@ public class MovementController : MonoBehaviour {
 
     private void Update() {
         Movement();
+        InAir();
         CameraRotation();
         Dash();
         canStandUp = CanStandUp();
@@ -90,9 +92,9 @@ public class MovementController : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && canStandUp) {
-            crouched = !crouched;
-        }
+        // if (Input.GetKeyDown(KeyCode.LeftControl) && canStandUp) {
+        //     crouched = !crouched;
+        // }
 
         if (!crouched) {
             float dist = Vector3.Distance(cam.transform.localPosition, cameraDefaultPos);
@@ -139,6 +141,21 @@ public class MovementController : MonoBehaviour {
         totalMovement += upMovement * Time.deltaTime;
 
         cc.Move(totalMovement);
+    }
+
+    private void InAir() {
+        if (cc.isGrounded)
+            return;
+
+        // TODO: fix jump
+        
+        if (cc.velocity.y < 2) {
+            verticalVelocity *= -2;
+        }
+    }
+
+    private void OnGUI() {
+        GUI.Label(new Rect(10, 10, 100, 100), cc.velocity.y.ToString("F2"));
     }
 
     private void CameraRotation() {
