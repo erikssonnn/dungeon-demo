@@ -68,7 +68,7 @@ MonoBehaviour:
   lm:
     serializedVersion: 2
     m_Bits: 256
-  bloodPrefab: {fileID: 3599716806355353721, guid: 8f5379af1d6b6ff46ad5593f227b1312,
+  bloodPrefab: {fileID: 3599716806355353721, guid: dadd93da56750ef4ebbfafe9006fa142,
     type: 3}
 --- !u!195 &4396878070799227446
 NavMeshAgent:

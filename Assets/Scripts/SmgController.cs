@@ -52,6 +52,8 @@ public class SmgController : MonoBehaviour {
             return;
         if (!Input.GetKeyDown(KeyCode.R))
             return;
+        if (ammoReserve <= 0)
+            return;
 
         anim.SetTrigger("reloading");
         reloading = true;
@@ -139,8 +141,11 @@ public class SmgController : MonoBehaviour {
         ren.SetPosition(1, hit.point);
         if ((1 << LayerMask.NameToLayer("Monster") & (1 << hit.transform.gameObject.layer)) == 0)
             return;
-
-        Instantiate(blood, hit.point, Quaternion.LookRotation(transform.position - cam.transform.position));
+        
+        GameObject newBlood = Instantiate(blood, hit.point, Quaternion.identity);
+        newBlood.transform.LookAt(cam.transform.position);
+        newBlood.transform.SetParent(hit.transform, true);
+        
         MonsterController monsterController = hit.transform.GetComponentInParent<MonsterController>();
         if (monsterController == null)
             return;

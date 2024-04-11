@@ -28,8 +28,6 @@ public class MonsterController : MonoBehaviour {
         GetComponentInChildren<Collider>().enabled = false;
         agent.enabled = false;
         StartCoroutine(FinishSpawnAnimation());
-
-        // UpdateState(State.CHASE);
     }
 
     private void NullChecker() {
@@ -71,7 +69,6 @@ public class MonsterController : MonoBehaviour {
         agent.enabled = true;
 
         UpdateState(State.CHASE);
-        print("done");
     }
     
     private void Chase() {
