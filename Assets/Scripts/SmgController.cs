@@ -44,7 +44,7 @@ public class SmgController : MonoBehaviour {
     private void Update() {
         Shoot();
         Reload();
-        DebugShowRay();
+        // DebugShowRay();
     }
 
     private void Reload() {
@@ -87,12 +87,12 @@ public class SmgController : MonoBehaviour {
         return direction;
     }
 
-    private void DebugShowRay() {
-        Vector3 direction = GetSpreadDirection();
-
-        Ray forwardRay = new Ray(cam.transform.position, direction);
-        Debug.DrawRay(forwardRay.origin, direction * 1000, Color.green);
-    }
+    // private void DebugShowRay() {
+    //     Vector3 direction = GetSpreadDirection();
+    //
+    //     Ray forwardRay = new Ray(cam.transform.position, direction);
+    //     Debug.DrawRay(forwardRay.origin, direction * 1000, Color.green);
+    // }
 
     private void Shoot() {
         if (reloading)
@@ -113,12 +113,13 @@ public class SmgController : MonoBehaviour {
 
         GameObject newLine = Instantiate(line);
         newLine.transform.position = muzzleFlashOrigin.transform.position;
-        newLine.transform.rotation = Quaternion.identity;
+        newLine.transform.LookAt(GetSpreadDirection() * 100);
+        newLine.transform.SetParent(cam.transform, true);
 
-        LineRenderer ren = newLine.GetComponent<LineRenderer>();
-        ren.positionCount = 2;
-        ren.SetPosition(0, muzzleFlashOrigin.transform.position);
-        ren.SetPosition(1, GetSpreadDirection() * 100);
+        // LineRenderer ren = newLine.GetComponent<LineRenderer>();
+        // ren.positionCount = 2;
+        // ren.SetPosition(0, muzzleFlashOrigin.transform.position);
+        // ren.SetPosition(1, GetSpreadDirection() * 100);
 
         nextFire = Time.time + fireRate;
 
@@ -138,7 +139,8 @@ public class SmgController : MonoBehaviour {
         if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity, lm))
             return;
 
-        ren.SetPosition(1, hit.point);
+        // ren.SetPosition(1, hit.point);
+        newLine.transform.LookAt(hit.point);
         if ((1 << LayerMask.NameToLayer("Monster") & (1 << hit.transform.gameObject.layer)) == 0)
             return;
         
