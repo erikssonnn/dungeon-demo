@@ -11,6 +11,7 @@ public class MovementController : MonoBehaviour {
     [SerializeField] private float dashLength;
     [SerializeField] private float dashFov;
     [SerializeField] private float dashSpeed;
+    [SerializeField] private float fallAcceleration;
 
     private float mouseX = 0f;
     private float mouseY = 0f;
@@ -38,6 +39,7 @@ public class MovementController : MonoBehaviour {
     private float startFov;
     private float endFov;
     private float half;
+    private float fallForce = 1.5f;
 
     private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,7 +61,6 @@ public class MovementController : MonoBehaviour {
 
     private void Update() {
         Movement();
-        InAir();
         CameraRotation();
         Dash();
         canStandUp = CanStandUp();
@@ -128,12 +129,22 @@ public class MovementController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && cc.isGrounded) {
             verticalVelocity = jumpForce;
         }
-
-        if (verticalVelocity > 0) {
-            verticalVelocity -= 10 * Time.deltaTime;
+        
+        if (verticalVelocity >= 0)
+        {
+            verticalVelocity -= 25 * Time.deltaTime;
         }
 
-        upMovement.y -= 9.81f;
+        if (fallForce > 0 && cc.isGrounded)
+        {
+            fallForce = 0.1f;
+        }
+        if(verticalVelocity < 0)
+        {
+            fallForce += (Mathf.Pow(fallAcceleration, 2f) * Time.deltaTime);
+        }
+
+        upMovement.y -= (fallForce * 9.81f);
         dir = forwardMovement + rightMovement;
         dir.Normalize();
 
@@ -146,12 +157,6 @@ public class MovementController : MonoBehaviour {
     private void InAir() {
         if (cc.isGrounded)
             return;
-
-        // TODO: fix jump
-        
-        if (cc.velocity.y < 2) {
-            verticalVelocity *= -2;
-        }
     }
 
     private void OnGUI() {

@@ -24,7 +24,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 		if (maxSpawnCount == 0)
 			maxSpawnCount = 1;
 
-		spawnInterval = 1.5f;
+		spawnInterval = 111111111.5f;
 		spawnedMonsters.Clear();
 	}
 
