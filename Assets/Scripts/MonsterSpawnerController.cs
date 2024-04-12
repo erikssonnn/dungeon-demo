@@ -44,7 +44,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 			SpawnMonster(hit.point);
 		}
 		if (Input.GetKeyDown(KeyCode.N)) {
-			DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.75f);
+			DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.5f);
 		}
 	}
 
