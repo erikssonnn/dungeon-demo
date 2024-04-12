@@ -113,7 +113,7 @@ public class SmgController : MonoBehaviour {
 
         GameObject newLine = Instantiate(line);
         newLine.transform.position = muzzleFlashOrigin.transform.position;
-        newLine.transform.LookAt(GetSpreadDirection() * 100);
+        newLine.transform.eulerAngles = cam.transform.eulerAngles;
         newLine.transform.SetParent(cam.transform, true);
 
         // LineRenderer ren = newLine.GetComponent<LineRenderer>();
