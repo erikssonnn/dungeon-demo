@@ -34,11 +34,17 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void DebugSpawnMonster() {
+		/*
+		 * TODO: DEBUG REMOVE ON RELEASE
+		 */
 		Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 		if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity))
 			return;
 		if (Input.GetKeyDown(KeyCode.M)) {
 			SpawnMonster(hit.point);
+		}
+		if (Input.GetKeyDown(KeyCode.N)) {
+			DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.75f);
 		}
 	}
 
