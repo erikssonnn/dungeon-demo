@@ -159,10 +159,6 @@ public class MovementController : MonoBehaviour {
             return;
     }
 
-    private void OnGUI() {
-        GUI.Label(new Rect(10, 10, 100, 100), cc.velocity.y.ToString("F2"));
-    }
-
     private void CameraRotation() {
         mouseX += Input.GetAxis("Mouse Y") * mouseSensitivity * 0.1f;
         mouseY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.1f;

@@ -760,6 +760,7 @@ GameObject:
   - component: {fileID: 5345709339478519621}
   - component: {fileID: 5345709339478519618}
   - component: {fileID: 5345709339478519619}
+  - component: {fileID: 1708433168205113295}
   - component: {fileID: 5345709339478519616}
   - component: {fileID: 5345709339478519617}
   - component: {fileID: 5345709339478519620}
@@ -823,6 +824,21 @@ MonoBehaviour:
   dashLength: 10
   dashFov: 61
   dashSpeed: 20
+  fallAcceleration: 0
+--- !u!114 &1708433168205113295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5345709339478519742}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95556d6d00ef4a1cbf4bae895b79afc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 12
+  mouseSensitivity: 10
 --- !u!114 &5345709339478519616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,15 +1734,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01f0ac5d43195e845bb33298fd0a4a20, type: 3}
---- !u!4 &5345709339538963966 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
-    type: 3}
-  m_PrefabInstance: {fileID: 3626474836927246731}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5345709339538963967 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+    type: 3}
+  m_PrefabInstance: {fileID: 3626474836927246731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5345709339538963966 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
     type: 3}
   m_PrefabInstance: {fileID: 3626474836927246731}
   m_PrefabAsset: {fileID: 0}

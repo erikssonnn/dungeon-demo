@@ -13,6 +13,8 @@ public class DebugController : MonoBehaviour {
     private bool paused = false;
 
     private CharacterController characterController = null;
+    private ConsoleController consoleController = null;
+    public bool Paused => paused; 
     
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -33,6 +35,10 @@ public class DebugController : MonoBehaviour {
         if (characterController == null) {
             throw new Exception("Cant find CharacterController");
         }
+        consoleController = FindObjectOfType<ConsoleController>();
+        if (consoleController == null) {
+            throw new Exception("Cant find ConsoleController");
+        }
     }
 
     public void SetPosition(Vector3 pos) {
@@ -41,10 +47,6 @@ public class DebugController : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.P)) {
-            ToggleDebug();
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Pause();
         }
@@ -52,14 +54,17 @@ public class DebugController : MonoBehaviour {
 
     private void Pause() {
         paused = !paused;
+        if (!paused && consoleController.ConsoleActive) 
+            consoleController.ToggleConsole();
+
         FindObjectOfType<MovementController>().enabled = !paused;
         Cursor.lockState = paused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = paused;
         Time.timeScale = paused ? 0.0f : 1.0f;
     }
 
-    private void ToggleDebug() {
-        debug = !debug;
+    public void ToggleDebug(bool onOff) {
+        debug = onOff;
 
         if (debug) {
             cam.cullingMask |= 1 << LayerMask.NameToLayer("Debug");
