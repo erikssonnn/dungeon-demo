@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DebugController : MonoBehaviour {
     [SerializeField] private GameObject debugObject = null;
+    [SerializeField] private GameObject pausedText = null;
 
     public static DebugController Instance;
 
@@ -57,7 +56,8 @@ public class DebugController : MonoBehaviour {
         if (!paused && consoleController.ConsoleActive) 
             consoleController.ToggleConsole();
 
-        FindObjectOfType<MovementController>().enabled = !paused;
+        pausedText.SetActive(paused);
+        FindObjectOfType<MovementController>().enabled = FindObjectOfType<FreeCameraController>().enabled != true && !paused;
         Cursor.lockState = paused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = paused;
         Time.timeScale = paused ? 0.0f : 1.0f;

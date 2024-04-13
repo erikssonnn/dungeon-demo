@@ -5,8 +5,15 @@ public class GameController : MonoBehaviour {
 	[SerializeField] private int startHealth = 0;
 	
 	private int health = 0;
-	private static GameController instance;
+	private bool god = false;
 
+	public bool God {
+		get => god;
+		set => god = value;
+	}
+
+	private static GameController instance;
+	
 	public static GameController Instance {
 		get {
 			instance = FindObjectOfType<GameController>();
@@ -30,8 +37,10 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void UpdateHealth(int amount) {
+		if (god)
+			return;
+		
 		health += amount;
-
 		float percentageHealth = (float)health / (float)startHealth;
 		UiController.Instance.healthBar.fillAmount = percentageHealth;
 

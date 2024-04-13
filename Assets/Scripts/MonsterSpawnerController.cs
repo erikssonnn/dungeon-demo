@@ -30,23 +30,22 @@ public class MonsterSpawnerController : MonoBehaviour {
 
 	private void Update() {
 		MonsterSpawnerCheck();
-		DebugSpawnMonster();
 	}
 
-	private void DebugSpawnMonster() {
-		/*
-		 * TODO: DEBUG REMOVE ON RELEASE
-		 */
-		Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-		if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity))
-			return;
-		if (Input.GetKeyDown(KeyCode.M)) {
-			SpawnMonster(hit.point);
-		}
-		if (Input.GetKeyDown(KeyCode.N)) {
-			DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.5f);
-		}
-	}
+	// private void DebugSpawnMonster() {
+	// 	/*
+	// 	 * TODO: DEBUG REMOVE ON RELEASE
+	// 	 */
+	// 	Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+	// 	if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity))
+	// 		return;
+	// 	if (Input.GetKeyDown(KeyCode.M)) {
+	// 		SpawnMonster(hit.point);
+	// 	}
+	// 	if (Input.GetKeyDown(KeyCode.N)) {
+	// 		DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.5f);
+	// 	}
+	// }
 
 	private void MonsterSpawnerCheck() {
 		if (spawnedMonsters.Count >= maxSpawnCount)
@@ -84,7 +83,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 		SpawnMonster(pos);
 	}
 
-	private void SpawnMonster(Vector3 pos) {
+	public void SpawnMonster(Vector3 pos) {
 		Instantiate(portalPrefab, pos, Quaternion.identity);
 		
 		GameObject newMonster = Instantiate(monsterPrefab, pos, Quaternion.identity);

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine.EventSystems;
 
 public class ConsoleController : MonoBehaviour {
     [SerializeField] private GameObject console = null;
     [SerializeField] private Text output = null;
     [SerializeField] private Text inputText= null;
-    private static readonly string[] commands = { "debug", "noclip"};
+    private static readonly string[] commands = { "debug", "noclip", "clear", "spawn", "god", "onehit"};
     private bool active = false;
     private InputKey input = new InputKey();
     private MovementController mc = null;
@@ -122,8 +123,6 @@ public class ConsoleController : MonoBehaviour {
             case "debug":
                 debug = b;
                 DebugController.Instance.ToggleDebug(debug);
-                // Camera cam = Camera.main;
-                // cam.cullingMask = value == 1 ? cam.cullingMask |= (1 << LayerMask.NameToLayer("debug")) : cam.cullingMask &= ~(1 << LayerMask.NameToLayer("debug"));
                 break;
             case "noclip":
                 mc.enabled = !b;
@@ -134,8 +133,35 @@ public class ConsoleController : MonoBehaviour {
                 }
                 FindObjectOfType<FreeCameraController>().enabled = b;
                 break;
+            case "clear":
+                output.text = "<--CLEARED CONSOLE-->\n";
+                break;
+            case "spawn":
+                Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+                if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity)) {
+                    PrintConsole("<--CANT SPAWN MONSTER WHEN NOT LOOKING AT ANYTHING-->\n");
+                    break;
+                }
+                if (value > 10) {
+                    PrintConsole("<--DONT SPAWN MORE THAN 10 PLEASE-->\n");
+                    break;
+                }
+                
+                for (int i = 0; i < value; i++) {
+                    FindObjectOfType<MonsterSpawnerController>().SpawnMonster(hit.point);
+                }
+                break;
+            case "god":
+                GetComponent<GameController>().God = b;
+                break;
+            case "onehit":
+                SmgController[] guns = FindObjectsOfType<SmgController>();
+                foreach (SmgController gun in guns) {
+                    gun.Onehit = b;
+                }
+                break;
             default:
-                UnityEngine.Debug.LogError("SWITCH CASE FELL BACK TO DEFAULT");
+                Debug.LogError("SWITCH CASE FELL BACK TO DEFAULT");
                 break;
         }
     }

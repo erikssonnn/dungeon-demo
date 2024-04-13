@@ -30,6 +30,13 @@ public class SmgController : MonoBehaviour {
     private Camera cam = null;
     private float nextFire = 0.0f;
     private bool reloading = false;
+    private bool onehit = false;
+
+    public bool Onehit {
+        get => onehit;
+        set => onehit = value;
+    }
+
 
     private void Start() {
         ammoReserve = startAmmo;
@@ -151,6 +158,6 @@ public class SmgController : MonoBehaviour {
         MonsterController monsterController = hit.transform.GetComponentInParent<MonsterController>();
         if (monsterController == null)
             return;
-        monsterController.UpdateHealth(damage);
+        monsterController.UpdateHealth(Onehit ? -10000 : damage);
     }
 }
