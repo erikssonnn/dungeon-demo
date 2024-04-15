@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine.EventSystems;
 
 public class ConsoleController : MonoBehaviour {

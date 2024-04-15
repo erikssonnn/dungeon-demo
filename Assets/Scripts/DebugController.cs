@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Logger = erikssonn.Logger;
 
 public class DebugController : MonoBehaviour {
     [SerializeField] private GameObject debugObject = null;
