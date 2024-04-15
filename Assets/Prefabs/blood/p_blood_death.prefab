@@ -4887,6 +4887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f83c59e42ee0946881816294da4713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnChance: 0.1
   hitMask:
     serializedVersion: 2
     m_Bits: 513
@@ -4939,7 +4940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7920b97b72211418b9aefed87ec55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 10
+  time: 3
 --- !u!1 &5076488416451156435
 GameObject:
   m_ObjectHideFlags: 0
@@ -14705,7 +14706,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5076488417732909315}
   serializedVersion: 7
-  lengthInSec: 9
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -14780,7 +14781,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -19548,6 +19549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f83c59e42ee0946881816294da4713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnChance: 0.1
   hitMask:
     serializedVersion: 2
     m_Bits: 513
@@ -19640,7 +19642,8 @@ Light:
   m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: NaN, y: 33, z: 12, w: 0}
+  m_BoundingSphereOverride: {x: 3.85186e-34, y: 0.00000047683716, z: 2.3509887e-38,
+    w: 4.5918e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

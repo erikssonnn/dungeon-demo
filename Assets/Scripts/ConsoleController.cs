@@ -9,8 +9,8 @@ using UnityEngine.EventSystems;
 public class ConsoleController : MonoBehaviour {
     [SerializeField] private GameObject console = null;
     [SerializeField] private Text output = null;
-    [SerializeField] private Text inputText= null;
-    private static readonly string[] commands = { "debug", "noclip", "clear", "spawn", "god", "onehit"};
+    [SerializeField] private Text inputText = null;
+    private static readonly string[] commands = { "debug", "noclip", "clear", "spawn", "god", "onehit" };
     private bool active = false;
     private InputKey input = new InputKey();
     private MovementController mc = null;
@@ -42,17 +42,20 @@ public class ConsoleController : MonoBehaviour {
         }
 
         if (active) {
-            foreach(char c in Input.inputString) {
+            foreach (char c in Input.inputString) {
                 if (c == '\b') {
                     if (inputString.Length > 0) {
                         inputString = inputString.Substring(0, inputString.Length - 1);
                     }
                 } else if (c == '\u0020') {
                     inputString += " ";
+                } else if (c == '\u00A7') {
+                    // nothing
                 } else {
                     inputString += c;
                 }
             }
+
             inputText.text = inputString + "_";
         }
     }
@@ -64,18 +67,19 @@ public class ConsoleController : MonoBehaviour {
     }
 
     private static bool IsValidCommand(string str) {
-        foreach(string command in commands) {
-            if(command.Trim() == str) {
+        foreach (string command in commands) {
+            if (command.Trim() == str) {
                 return true;
             }
         }
+
         return false;
     }
 
     private void PrintConsole(string str) {
         var h = output.preferredHeight;
 
-        if(h > output.rectTransform.rect.height) {
+        if (h > output.rectTransform.rect.height) {
             output.text = "<--CLEARED CONSOLE-->\n";
         }
 
@@ -117,7 +121,7 @@ public class ConsoleController : MonoBehaviour {
         inputString = "";
     }
 
-    private void ExecuteCommand(string command, int value) { 
+    private void ExecuteCommand(string command, int value) {
         bool b = value == 1 ? true : false;
         switch (command) {
             case "debug":
@@ -131,6 +135,7 @@ public class ConsoleController : MonoBehaviour {
                 for (int k = 0; k < v.Length; k++) {
                     v[k].enabled = !b;
                 }
+
                 FindObjectOfType<FreeCameraController>().enabled = b;
                 break;
             case "clear":
@@ -142,14 +147,16 @@ public class ConsoleController : MonoBehaviour {
                     PrintConsole("<--CANT SPAWN MONSTER WHEN NOT LOOKING AT ANYTHING-->\n");
                     break;
                 }
+
                 if (value > 10) {
                     PrintConsole("<--DONT SPAWN MORE THAN 10 PLEASE-->\n");
                     break;
                 }
-                
+
                 for (int i = 0; i < value; i++) {
                     FindObjectOfType<MonsterSpawnerController>().SpawnMonster(hit.point);
                 }
+
                 break;
             case "god":
                 GetComponent<GameController>().God = b;
@@ -159,6 +166,7 @@ public class ConsoleController : MonoBehaviour {
                 foreach (SmgController gun in guns) {
                     gun.Onehit = b;
                 }
+
                 break;
             default:
                 Debug.LogError("SWITCH CASE FELL BACK TO DEFAULT");
