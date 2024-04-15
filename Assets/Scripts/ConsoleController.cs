@@ -162,8 +162,8 @@ public class ConsoleController : MonoBehaviour {
                 GetComponent<GameController>().God = b;
                 break;
             case "onehit":
-                SmgController[] guns = FindObjectsOfType<SmgController>();
-                foreach (SmgController gun in guns) {
+                GunController[] guns = FindObjectsOfType<GunController>();
+                foreach (GunController gun in guns) {
                     gun.Onehit = b;
                 }
 
