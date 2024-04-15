@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5893614532947158559}
   - component: {fileID: 8175218936974542342}
   - component: {fileID: 1781892190300083543}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PROC_PLANE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5624384229203585683}
   - component: {fileID: 8438870716856155681}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: decal_blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 3
   sharedMesh: {fileID: 0}
-  instanceID: 20370
+  instanceID: 41312
 --- !u!1 &5113713725003983716
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4718850867873797897}
   - component: {fileID: 2726956689027721917}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SKINNED_PROC_PLANE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,13 +327,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4370196772893049152}
   - component: {fileID: 8568775918982147334}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4370196772893049152
 Transform:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ Light:
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
-    m_Resolution: -1
+    m_Resolution: 1
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -397,7 +397,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3895
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0

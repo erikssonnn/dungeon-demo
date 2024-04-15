@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4445078989005434165}
   - component: {fileID: -3287664741629930593}
   m_Layer: 0
-  m_Name: p_blood_explosion_4
+  m_Name: p_blood_hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -661,7 +661,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 0
     angle: 45.1
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1031,7 +1031,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -1043,20 +1043,38 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 0
-          outSlope: 1
+          inSlope: 2.3646321
+          outSlope: 2.3646321
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0.24503355
+        - serializedVersion: 3
+          time: 0.19277106
+          value: 0.9865687
+          inSlope: -0.006257685
+          outSlope: -0.006257685
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.59249496
+        - serializedVersion: 3
+          time: 0.7457907
+          value: 0.9705332
+          inSlope: -0.0013962969
+          outSlope: -0.0013962969
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.1830178
+          outWeight: 0.3720134
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
+          value: 0
+          inSlope: -2.0131757
+          outSlope: -2.0131757
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.5213881
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -3870,7 +3888,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 1
     light: {fileID: 3472736219351031469}
     randomDistribution: 1
@@ -3983,7 +4001,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 10
   TrailModule:
     enabled: 0
     mode: 0
@@ -4893,7 +4911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6135998867366999596
 Transform:
   m_ObjectHideFlags: 0
@@ -4902,7 +4920,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5069135122818491932}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -8.76, y: -0.10700001, z: 0.537}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4445078989005434171}
@@ -4920,8 +4938,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.3679245, g: 0, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 2
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -4965,7 +4983,7 @@ Light:
   m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0.00990099, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: -4.688757e-23, z: 4.5905e-41, w: 5.269451}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1026424260643422495
 Transform:
   m_ObjectHideFlags: 0
@@ -3903,7 +3903,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 1
     light: {fileID: 6583474036894485248}
     randomDistribution: 1
@@ -4908,7 +4908,7 @@ GameObject:
   - component: {fileID: 8286037583006974784}
   - component: {fileID: 8286037583006974785}
   m_Layer: 0
-  m_Name: p_portal
+  m_Name: p_blood_portal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8754,7 +8754,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 1
     light: {fileID: 6583474036894485248}
     randomDistribution: 1
