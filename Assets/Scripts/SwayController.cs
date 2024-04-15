@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,11 @@ public class SwayController : MonoBehaviour {
     private Vector3 forward = Vector3.zero;
     private float mouseX = 0f;
     private float mouseY = 0f;
-
-    private MovementController mc;
-
+    
+    private float horizontal;
+    private float vertical;
+    
     private void Start() {
-        mc = GetComponentInParent<MovementController>();
-
         startPos = transform.localPosition;
         desiredPos = startPos;
 
@@ -51,15 +51,18 @@ public class SwayController : MonoBehaviour {
     }
 
     private void MovementSway() {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float step = movementSpeed * Time.deltaTime;
+        float targetHorizontal = Input.GetAxis("Horizontal");
+        float targetVertical = Input.GetAxis("Vertical");
+
+        horizontal = Mathf.Lerp(horizontal, targetHorizontal, step);
+        vertical = Mathf.Lerp(vertical, targetVertical, step);
 
         right = horizontal * Vector3.right * (movementAmount * 0.1f);
         forward = vertical * Vector3.forward * (movementAmount * 0.1f);
 
         desiredPos = right + forward;
 
-        float step = movementSpeed * Time.deltaTime;
-        transform.localPosition = Vector3.MoveTowards(transform.localPosition, desiredPos + startPos, step);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, startPos + desiredPos, step);
     }
 }
