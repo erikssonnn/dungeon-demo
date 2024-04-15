@@ -1,11 +1,26 @@
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class GunInfo {
+    public string name = "temp";
+    public int startAmmo = 200;
+    public float reloadSpeed = 1;
+
+    public float fireRate = 0.1f;
+    public int magazineSize = 71;
+    public int damage = -5;
+    public float spreadTangent = 0.01f;
+    public float spreadMultiplier = 2.0f;
+    public float maxSpread = 0.5f;
+}
+
 public class GunController : MonoBehaviour {
+    [Header("GUN INFO: ")]
+    [SerializeField] private GunInfo gunInfo;
+    
     [Header("ASSIGNABLES: ")]
     [SerializeField] private LayerMask lm = 0;
 
@@ -14,16 +29,7 @@ public class GunController : MonoBehaviour {
 
     [SerializeField] private GameObject muzzleFlashPrefab = null;
     [SerializeField] private GameObject muzzleFlashOrigin = null;
-
-    [Header("TWEAKABLES: ")]
-    [SerializeField] private new string name = "temp";
-    [SerializeField] private int startAmmo = 200;
-    [SerializeField] private float reloadSpeed = 1;
-
-    [SerializeField] private float fireRate = 0.1f;
-    [SerializeField] private int magazineSize = 71;
-    [SerializeField] private int damage = -5;
-    [SerializeField] private float spread = 0.5f;
+    
 
     private Animator anim = null;
     private int ammo = 0;
@@ -34,6 +40,7 @@ public class GunController : MonoBehaviour {
     private bool reloading = false;
     private bool onehit = false;
     private float oldSpeed = 0.0f;
+    private float spread = 0.0f;
 
     public bool Onehit {
         get => onehit;
@@ -42,8 +49,8 @@ public class GunController : MonoBehaviour {
 
 
     private void Start() {
-        ammoReserve = startAmmo;
-        ammo = magazineSize;
+        ammoReserve = gunInfo.startAmmo;
+        ammo = gunInfo.magazineSize;
 
         uiController = UiController.Instance;
         cam = Camera.main;
@@ -53,12 +60,26 @@ public class GunController : MonoBehaviour {
     }
 
     private void Update() {
+        Spread();
         Shoot();
         Reload();
     }
 
+    private void Spread() {
+        if (Input.GetMouseButton(0)) {
+            spread += gunInfo.spreadTangent * gunInfo.spreadMultiplier * Time.deltaTime;
+            if(spread > gunInfo.maxSpread)
+                spread = gunInfo.maxSpread;
+            return;
+        }
+        
+        spread -= gunInfo.spreadTangent * gunInfo.spreadMultiplier * 5 * Time.deltaTime;
+        if(spread < gunInfo.spreadTangent)
+            spread = gunInfo.spreadTangent;
+    }
+
     private void Reload() {
-        if (ammo >= magazineSize)
+        if (ammo >= gunInfo.magazineSize)
             return;
         if (!Input.GetKeyDown(KeyCode.R))
             return;
@@ -66,12 +87,12 @@ public class GunController : MonoBehaviour {
             return;
 
         anim.SetTrigger("reloading");
-        anim.speed = reloadSpeed;
+        anim.speed = gunInfo.reloadSpeed;
         reloading = true;
     }
 
     public void AReloadReady() {
-        int countToFillMag = magazineSize - ammo;
+        int countToFillMag = gunInfo.magazineSize - ammo;
         if (countToFillMag <= ammoReserve) {
             ammo += countToFillMag;
             ammoReserve -= countToFillMag;
@@ -110,7 +131,7 @@ public class GunController : MonoBehaviour {
             anim.SetBool("fire", false);
             return;
         }
-
+        
         if (nextFire > Time.time)
             return;
         if (ammo <= 0) {
@@ -124,14 +145,14 @@ public class GunController : MonoBehaviour {
         newLine.transform.eulerAngles = cam.transform.eulerAngles;
         newLine.transform.SetParent(cam.transform, true);
 
-        nextFire = Time.time + fireRate;
+        nextFire = Time.time + gunInfo.fireRate;
 
         //flash
         GameObject flash = Instantiate(muzzleFlashPrefab);
         Vector3 rot = muzzleFlashOrigin.transform.eulerAngles + new Vector3(0, 0, Random.Range(-180, 180));
         flash.transform.SetPositionAndRotation(muzzleFlashOrigin.transform.position, Quaternion.Euler(rot));
         flash.transform.SetParent(muzzleFlashOrigin.transform, true);
-        Destroy(flash, fireRate);
+        Destroy(flash, gunInfo.fireRate);
 
         ammo--;
         anim.SetBool("fire", true);
@@ -153,6 +174,6 @@ public class GunController : MonoBehaviour {
         MonsterController monsterController = hit.transform.GetComponentInParent<MonsterController>();
         if (monsterController == null)
             return;
-        monsterController.UpdateHealth(Onehit ? -10000 : damage);
+        monsterController.UpdateHealth(Onehit ? -10000 : gunInfo.damage);
     }
 }

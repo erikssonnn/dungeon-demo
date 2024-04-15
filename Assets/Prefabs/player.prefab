@@ -573,6 +573,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f86e3c27c3b4c3479e791dc05903c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunInfo:
+    name: PPSH
+    startAmmo: 142
+    reloadSpeed: 1
+    fireRate: 0.1
+    magazineSize: 71
+    damage: -15
+    spreadTangent: 0.01
+    spreadMultiplier: 2
+    maxSpread: 0.1
   lm:
     serializedVersion: 2
     m_Bits: 2561
@@ -581,13 +591,6 @@ MonoBehaviour:
   muzzleFlashPrefab: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
     type: 3}
   muzzleFlashOrigin: {fileID: 5345709339538963967}
-  name: PPSH
-  startAmmo: 142
-  reloadSpeed: 1
-  fireRate: 0.1
-  magazineSize: 71
-  damage: -15
-  spread: 0.01
 --- !u!95 &5345709339199221341
 Animator:
   serializedVersion: 3
@@ -1340,6 +1343,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f86e3c27c3b4c3479e791dc05903c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunInfo:
+    name: KAR 98
+    startAmmo: 16
+    reloadSpeed: 1.5
+    fireRate: 0.1
+    magazineSize: 1
+    damage: -100
+    spreadTangent: 0.01
+    spreadMultiplier: 1
+    maxSpread: 0.01
   lm:
     serializedVersion: 2
     m_Bits: 2561
@@ -1348,13 +1361,6 @@ MonoBehaviour:
   muzzleFlashPrefab: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
     type: 3}
   muzzleFlashOrigin: {fileID: 3971661620174705462}
-  name: KAR 98
-  startAmmo: 16
-  reloadSpeed: 1.5
-  fireRate: 0.1
-  magazineSize: 1
-  damage: -100
-  spread: 0.01
 --- !u!95 &7810839632031318627
 Animator:
   serializedVersion: 3
