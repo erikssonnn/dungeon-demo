@@ -1,9 +1,13 @@
 using System;
 using UnityEngine;
+using Logger = erikssonn.Logger;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
 public class PostProcessing : MonoBehaviour {
-    [SerializeField] private int pixelSize = 16;
+    [Header("Pixelate: ")]
+    [SerializeField] private Vector2Int pixelSize = new Vector2Int(320, 420);
+    [SerializeField] private Vector2Int screenSize = new Vector2Int(1080, 4400);
+    [Header("ColorGrading: ")]
     [SerializeField] private int colorPrecision = 32;
 
     private Camera cam = null;
@@ -33,8 +37,24 @@ public class PostProcessing : MonoBehaviour {
         colorMat.SetFloat("_Colors", colorPrecision);
         Graphics.Blit(source, tempTexture, colorMat);
 
-        pixelateMat.SetInt("_PixelSize", pixelSize);
+        pixelateMat.SetInt("_PixelSize", GetPixelSizeForScreen());
         Graphics.Blit(tempTexture, destination, pixelateMat);
         RenderTexture.ReleaseTemporary(tempTexture);
+    }
+
+    private int GetPixelSizeForScreen()
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        float screenValue = Mathf.Sqrt(screenWidth * screenWidth + screenHeight * screenHeight);
+        int strength = Mathf.RoundToInt(Mathf.Lerp(pixelSize.x, pixelSize.y, Normalize(screenValue, screenSize.x, screenSize.y)));
+        // Debug.Log("screenValue: " + screenValue + ", strength: " + strength);
+        return strength;
+    }
+
+    private static float Normalize(float value, float min, float max)
+    {
+        return Mathf.Clamp01((value - min) / (max - min));
     }
 }
