@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Logger = erikssonn.Logger;
 using Random = UnityEngine.Random;
 
 public class MonsterSpawnerController : MonoBehaviour {
@@ -16,15 +17,18 @@ public class MonsterSpawnerController : MonoBehaviour {
 
 	private Vector3 previousPos = Vector3.zero;
 	private Transform player = null;
+	private RoomGenerationController roomGenerationController = null;
+	private List<Vector3> spawnPositions = new List<Vector3>();
 
 	private void Start() {
 		player = FindObjectOfType<MovementController>().transform;
-		maxSpawnCount = FindObjectOfType<RoomGenerationController>().GetMapSize();
-		
+		roomGenerationController = FindObjectOfType<RoomGenerationController>();
+
+		maxSpawnCount = roomGenerationController.GetMapSize();
 		if (maxSpawnCount == 0)
 			maxSpawnCount = 1;
 
-		spawnInterval = 111111111.5f;
+		spawnInterval = 1.5f;
 		spawnedMonsters.Clear();
 	}
 
@@ -32,20 +36,15 @@ public class MonsterSpawnerController : MonoBehaviour {
 		MonsterSpawnerCheck();
 	}
 
-	// private void DebugSpawnMonster() {
-	// 	/*
-	// 	 * TODO: DEBUG REMOVE ON RELEASE
-	// 	 */
-	// 	Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-	// 	if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity))
-	// 		return;
-	// 	if (Input.GetKeyDown(KeyCode.M)) {
-	// 		SpawnMonster(hit.point);
-	// 	}
-	// 	if (Input.GetKeyDown(KeyCode.N)) {
-	// 		DecalController.Instance.SpawnDecal(hit.point, forwardRay.direction.normalized, -0.5f);
-	// 	}
-	// }
+	public void SetSpawnPositions() {
+#if UNITY_EDITOR
+		Logger.Print(roomGenerationController.GetEligiblePositions().Count.ToString());
+#endif
+		
+		for (int i = 0; i < roomGenerationController.GetEligiblePositions().Count; i++) {
+			spawnPositions.Add(roomGenerationController.GetEligiblePositions()[i]);
+		}
+	}
 
 	private void MonsterSpawnerCheck() {
 		if (spawnedMonsters.Count >= maxSpawnCount)
@@ -63,13 +62,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void CheckPosition() {
-		Vector3 rayPos = new Vector3(Random.Range(0, 100), 100, Random.Range(0, 100));
-		Ray ray = new Ray(rayPos, Vector3.down * 1000);
-
-		if (!Physics.Raycast(ray, out RaycastHit hit, 1000, lm))
-			return;
-		
-		Vector3 pos = new Vector3(hit.point.x, 0, hit.point.z);
+		Vector3 pos = spawnPositions[Random.Range(0, spawnPositions.Count)];
 		if (TooCloseToPlayer(pos)) {
 			CheckPosition();
 			return;
