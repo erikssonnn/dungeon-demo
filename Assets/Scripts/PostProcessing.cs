@@ -10,18 +10,12 @@ public class PostProcessing : MonoBehaviour {
     [Header("ColorGrading: ")]
     [SerializeField] private int colorPrecision = 32;
 
-    [Header("Dither")]
-    [SerializeField] private Texture2D ditherTexture = null;
-    [SerializeField] private Color ditherColor = Color.white;
-
     private Camera cam = null;
     private Material pixelateMat = null;
     private Material colorMat = null;
-    private Material ditherMat = null;
 
     private void Start() {
         pixelateMat = new Material(Shader.Find("Hidden/pixelate"));
-        ditherMat = new Material(Shader.Find("Hidden/dither"));
         colorMat = new Material(Shader.Find("Hidden/colorgrading"));
     }
 
@@ -33,17 +27,12 @@ public class PostProcessing : MonoBehaviour {
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination) {
-        if (colorMat == null || pixelateMat == null || ditherMat == null) {
+        if (colorMat == null || pixelateMat == null) {
             Graphics.Blit(source, destination);
             throw new Exception("Cant find one of the postprocessing shader materials");
         }
 
         RenderTexture tempTexture = RenderTexture.GetTemporary(source.width, source.height);
-        // RenderTexture tempTexture2 = RenderTexture.GetTemporary(source.width, source.height);
-
-        // ditherMat.SetTexture("_DitherPattern", ditherTexture);
-        // ditherMat.SetColor("_Color", ditherColor);
-        // Graphics.Blit(source, tempTexture, ditherMat);
 
         colorMat.SetFloat("_Colors", colorPrecision);
         Graphics.Blit(source, tempTexture, colorMat);
@@ -52,7 +41,6 @@ public class PostProcessing : MonoBehaviour {
         Graphics.Blit(tempTexture, destination, pixelateMat);
         
         RenderTexture.ReleaseTemporary(tempTexture);
-        // RenderTexture.ReleaseTemporary(tempTexture2);
     }
 
     private int GetPixelSizeForScreen()

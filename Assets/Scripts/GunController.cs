@@ -156,7 +156,7 @@ public class GunController : MonoBehaviour {
 
         ammo--;
         anim.SetBool("fire", true);
-        ScreenShake.Instance.StartCoroutine(ScreenShake.Instance.Shake(0.5f, 0.1f));
+        // ScreenShake.Instance.StartCoroutine(ScreenShake.Instance.Shake(0.5f, 0.1f));
         UpdateGunUi();
 
         Ray forwardRay = new Ray(cam.transform.position, GetSpreadDirection());

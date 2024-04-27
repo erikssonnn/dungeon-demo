@@ -9,6 +9,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 	[SerializeField] private GameObject portalPrefab = null;
 	[SerializeField] private int distribution = 0;
 	[SerializeField] private LayerMask lm = 0;
+	[SerializeField] private bool spawnMonsters = false;
 
 	private int maxSpawnCount = 0;
 	private float spawnInterval = 0;
@@ -33,12 +34,23 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void Update() {
-		MonsterSpawnerCheck();
+		if (spawnMonsters) {
+			MonsterSpawnerCheck();
+		}
+
+		if (Input.GetMouseButtonDown(2)) {
+			Logger.Print("DEBUG spawn monster");
+			Ray forwardRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+			if (!Physics.Raycast(forwardRay, out RaycastHit hit, Mathf.Infinity, lm))
+				return;
+			SpawnMonster(hit.point);
+		}
 	}
 
 	public void SetSpawnPositions() {
 #if UNITY_EDITOR
-		Logger.Print(roomGenerationController.GetEligiblePositions().Count.ToString());
+		// Logger.Print(roomGenerationController.GetEligiblePositions().Count.ToString());
+		return;
 #endif
 		
 		for (int i = 0; i < roomGenerationController.GetEligiblePositions().Count; i++) {

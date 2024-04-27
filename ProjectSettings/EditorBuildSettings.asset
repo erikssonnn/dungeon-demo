@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/gamma_scene.unity
+    guid: 4c904b03e937802408aeab89551b0bc3
+  - enabled: 1
+    path: Assets/Scenes/catacombs.unity
+    guid: d0d60f663b528234bae3633f32b31dab
   m_configObjects: {}

@@ -46,12 +46,12 @@ public class SwayController : MonoBehaviour {
         desiredRot = new Vector3(mouseX, mouseY, right.x * -100f);
         Quaternion dest = Quaternion.Euler(startRot + desiredRot);
 
-        float step = rotationSpeed * Time.deltaTime;
+        float step = rotationSpeed * Time.fixedDeltaTime;
         transform.localRotation = Quaternion.Slerp(transform.localRotation, dest, step);
     }
 
     private void MovementSway() {
-        float step = movementSpeed * Time.deltaTime;
+        float step = movementSpeed * Time.fixedDeltaTime;
         float targetHorizontal = Input.GetAxis("Horizontal");
         float targetVertical = Input.GetAxis("Vertical");
 
