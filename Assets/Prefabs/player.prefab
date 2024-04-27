@@ -676,7 +676,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6967
+    m_Bits: 15159
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 5345709339478519620}
   m_Layer: 8
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1123,6 +1123,9 @@ MonoBehaviour:
   guns:
   - {fileID: 5345709339199221338}
   - {fileID: 7470191393019149781}
+  gunPrefabs:
+  - {fileID: 5167933518091539399, guid: f385c30035339ff4888ffc10b04fe222, type: 3}
+  - {fileID: 2445005747946537380, guid: 5abcefcdae0b63844914df468be89e66, type: 3}
 --- !u!1 &5345709340274057501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,6 +2054,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: light_cone
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4ccc214f781084746858cd28463a995e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ccc214f781084746858cd28463a995e, type: 3}
 --- !u!4 &5595017952341937716 stripped
@@ -2316,6 +2324,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: light_cone
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4ccc214f781084746858cd28463a995e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ccc214f781084746858cd28463a995e, type: 3}
