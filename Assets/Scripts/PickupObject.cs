@@ -33,7 +33,5 @@ public class PickupObject : MonoBehaviour {
 		if (!other.CompareTag("Player")) {
 			return;
 		}
-
-		other.GetComponentInChildren<HandController>().SetGun(index, gameObject);
 	}
 }
