@@ -2,36 +2,46 @@ using System;
 using UnityEngine;
 using Logger = erikssonn.Logger;
 
+public enum PickupType {
+    BULLETS_SMALL,
+    BULLETS_BIG,
+    BULLETS_SLUGS
+}
+
 public class PickupObject : MonoBehaviour {
-	[SerializeField] private int index = 0;
+    [SerializeField] private PickupType pickupType = 0;
 
-	[Header("Bobbing settings: ")]
-	[SerializeField] private float bobSpeed = 0.0f;
-	[SerializeField] private float bobStrength = 0.0f;
-	[SerializeField] private GameObject model = null;
+    [Header("Bobbing settings: ")]
+    [SerializeField] private float bobSpeed = 0.0f;
 
-	private Vector3 origin = Vector3.zero;
-	private Vector3 dest = Vector3.zero;
-	private float time = -1.0f;
+    [SerializeField] private float bobStrength = 0.0f;
+    [SerializeField] private GameObject model = null;
 
-	private void Start() {
-		origin = model.transform.localPosition;
-	}
+    private Vector3 origin = Vector3.zero;
+    private Vector3 dest = Vector3.zero;
+    private float time = -1.0f;
 
-	private void LateUpdate() {
-		PickupBobbing();
-	}
+    private void Start() {
+        origin = model.transform.localPosition;
+    }
 
-	private void PickupBobbing() {
-		time = Mathf.PingPong(Time.time * bobSpeed, 2.0f) - 1.0f;
-		dest = new Vector3(0.0f, time * bobStrength, 0.0f);
+    private void LateUpdate() {
+        PickupBobbing();
+    }
 
-		model.transform.localPosition = origin + dest;
-	}
+    private void PickupBobbing() {
+        time = Mathf.PingPong(Time.time * bobSpeed, 2.0f) - 1.0f;
+        dest = new Vector3(0.0f, time * bobStrength, 0.0f);
 
-	private void OnTriggerEnter(Collider other) {
-		if (!other.CompareTag("Player")) {
-			return;
-		}
-	}
+        model.transform.localPosition = origin + dest;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag("Player")) {
+            return;
+        }
+        
+        Logger.Print("PICKUP: " + pickupType);
+        Destroy(gameObject);
+    }
 }
