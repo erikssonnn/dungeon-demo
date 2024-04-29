@@ -271,7 +271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &977131798787106297
 Transform:
   m_ObjectHideFlags: 0
@@ -995,7 +995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5345709339734823105
 Transform:
   m_ObjectHideFlags: 0
@@ -1123,9 +1123,6 @@ MonoBehaviour:
   guns:
   - {fileID: 5345709339199221338}
   - {fileID: 7470191393019149781}
-  gunPrefabs:
-  - {fileID: 5167933518091539399, guid: f385c30035339ff4888ffc10b04fe222, type: 3}
-  - {fileID: 2445005747946537380, guid: 5abcefcdae0b63844914df468be89e66, type: 3}
 --- !u!1 &5345709340274057501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,6 +1610,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: muzzles
       objectReference: {fileID: 0}
+    - target: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_RootOrder
@@ -1763,7 +1765,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8681838320839877148, guid: 01f0ac5d43195e845bb33298fd0a4a20, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 01f0ac5d43195e845bb33298fd0a4a20, type: 3}
 --- !u!1 &5345709339538963967 stripped
 GameObject:
