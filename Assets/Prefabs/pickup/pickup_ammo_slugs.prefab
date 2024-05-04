@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupType: 2
+  amount: 10
   bobSpeed: 2
   bobStrength: 0.25
   model: {fileID: 4135673155543052663}

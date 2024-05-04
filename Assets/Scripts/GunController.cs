@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class GunInfo {
     public string name = "temp";
+    public int ammoType = 0;
     public int startAmmo = 200;
     public float reloadSpeed = 1;
 
@@ -29,11 +30,11 @@ public class GunController : MonoBehaviour {
 
     [SerializeField] private GameObject muzzleFlashPrefab = null;
     [SerializeField] private GameObject muzzleFlashOrigin = null;
-    
 
+    private HandController handController = null;
+    
     private Animator anim = null;
     private int ammo = 0;
-    private int ammoReserve = 0;
     private UiController uiController = null;
     private Camera cam = null;
     private float nextFire = 0.0f;
@@ -46,14 +47,13 @@ public class GunController : MonoBehaviour {
         get => onehit;
         set => onehit = value;
     }
-
-
+    
     private void Start() {
-        ammoReserve = gunInfo.startAmmo;
         ammo = gunInfo.magazineSize;
 
         uiController = UiController.Instance;
         cam = Camera.main;
+        handController = GetComponentInParent<HandController>();
         anim = GetComponent<Animator>();
         oldSpeed = anim.speed;
         UpdateGunUi();
@@ -83,7 +83,7 @@ public class GunController : MonoBehaviour {
             return;
         if (!Input.GetKeyDown(KeyCode.R))
             return;
-        if (ammoReserve <= 0)
+        if (handController.Ammos[gunInfo.ammoType].amount <= 0)
             return;
 
         anim.SetTrigger("reloading");
@@ -93,12 +93,12 @@ public class GunController : MonoBehaviour {
 
     public void AReloadReady() {
         int countToFillMag = gunInfo.magazineSize - ammo;
-        if (countToFillMag <= ammoReserve) {
+        if (countToFillMag <= handController.Ammos[gunInfo.ammoType].amount) {
             ammo += countToFillMag;
-            ammoReserve -= countToFillMag;
+            handController.Ammos[gunInfo.ammoType].amount -= countToFillMag;
         } else {
-            ammo += ammoReserve;
-            ammoReserve = 0;
+            ammo += handController.Ammos[gunInfo.ammoType].amount;
+            handController.Ammos[gunInfo.ammoType].amount = 0;
         }
 
         anim.ResetTrigger("reloading");
@@ -110,7 +110,7 @@ public class GunController : MonoBehaviour {
     public void UpdateGunUi() {
         if (uiController == null)
             return;
-        uiController.ammoText.text = ammo + "/" + ammoReserve;
+        uiController.ammoText.text = ammo + "/" + handController.Ammos[gunInfo.ammoType].amount;
         uiController.gunText.text = name;
     }
 
@@ -152,7 +152,7 @@ public class GunController : MonoBehaviour {
         Vector3 rot = muzzleFlashOrigin.transform.eulerAngles + new Vector3(0, 0, Random.Range(-180, 180));
         flash.transform.SetPositionAndRotation(muzzleFlashOrigin.transform.position, Quaternion.Euler(rot));
         flash.transform.SetParent(muzzleFlashOrigin.transform, true);
-        Destroy(flash, gunInfo.fireRate);
+        Destroy(flash, 0.05f);
 
         ammo--;
         anim.SetBool("fire", true);

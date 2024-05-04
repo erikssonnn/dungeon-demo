@@ -1851,37 +1851,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5294370183251177375, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5294370183649567227, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5294370184193507265, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5294370184590117370, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5294370184882422261, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5345709339199221338, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: muzzleFlashPrefab
-      value: 
-      objectReference: {fileID: 1259060783466660836, guid: 11334f7b9f7b6944e800d0c43288d722,
-        type: 3}
     - target: {fileID: 5345709339478519617, guid: 4cae1b99c22e984488c1e40ec74b04df,
         type: 3}
       propertyPath: pausedText

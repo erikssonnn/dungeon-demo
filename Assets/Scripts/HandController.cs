@@ -2,8 +2,20 @@ using System;
 using UnityEngine;
 using Logger = erikssonn.Logger;
 
+[Serializable]
+public class Ammo {
+    public int amount;
+    public PickupType ammoType;
+}
+
 public class HandController : MonoBehaviour {
     [SerializeField] private GunController[] guns = null;
+    [SerializeField] private Ammo[] ammos = null;
+
+    public Ammo[] Ammos {
+        get => ammos;
+        set => ammos = value;
+    }
 
     private int currentIndex = 0;
 

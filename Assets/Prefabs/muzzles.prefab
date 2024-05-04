@@ -91,7 +91,7 @@ MeshCollider:
   m_GameObject: {fileID: 8681838319463171195}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -155,7 +155,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8681838320667978874}
   m_LocalRotation: {x: -0, y: -0, z: 1.7763568e-15, w: 1}
-  m_LocalPosition: {x: -0.073999986, y: -0.011999965, z: 0.04399997}
+  m_LocalPosition: {x: -0.1223, y: 0.0217, z: 0.0428}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8681838320290221173}
@@ -173,7 +173,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 0.87058824, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.65
   m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -234,7 +234,6 @@ GameObject:
   - component: {fileID: 8681838320839877151}
   - component: {fileID: 8681838320839877138}
   - component: {fileID: 8681838320839877149}
-  - component: {fileID: 8681838320839877148}
   m_Layer: 8
   m_Name: muzzle_2
   m_TagString: Untagged
@@ -249,13 +248,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8681838320839877150}
-  m_LocalRotation: {x: -0.70710635, y: -0.000000029802322, z: 0.000000029802322, w: 0.7071073}
-  m_LocalPosition: {x: -0.0131, y: -0.0043, z: -0.0556}
+  m_LocalRotation: {x: -0.48707327, y: 0.4998309, z: -0.49983355, w: 0.51292807}
+  m_LocalPosition: {x: 0.0043, y: 0.0346, z: -0.0552}
   m_LocalScale: {x: 0.046052236, y: 0.023617737, z: 0.023617737}
   m_Children: []
   m_Father: {fileID: 8681838320290221173}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 88.518, z: -88.519}
 --- !u!33 &8681838320839877138
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -305,20 +304,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8681838320839877148
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8681838320839877150}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8681838321247597120
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +395,7 @@ MeshCollider:
   m_GameObject: {fileID: 8681838321247597120}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
