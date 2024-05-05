@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
-public class CRTPostEffecter : MonoBehaviour {
+public class CRT : MonoBehaviour {
     public Material material;
     public int whiteNoiseFrequency = 1;
     public float whiteNoiseLength = 0.1f;

@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.05
   m_LinearFogStart: 5
   m_LinearFogEnd: 28.63
-  m_AmbientSkyColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+  m_AmbientSkyColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -548,6 +548,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pickup_ammo_slugs
+      objectReference: {fileID: 0}
+    - target: {fileID: 4135673155543052663, guid: 8d1c704f603eec348ac97d53937d7518,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d1c704f603eec348ac97d53937d7518, type: 3}
@@ -1851,6 +1856,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5345709339361463436, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345709339361463437, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5345709339478519617, guid: 4cae1b99c22e984488c1e40ec74b04df,
         type: 3}
       propertyPath: pausedText
@@ -1915,6 +1930,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: spread
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: threshold
+      value: 0.026
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: bayerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: downSamples
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: redColorCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: blueColorCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: greenColorCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162036876040533770, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: pointFilterDown
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
@@ -2217,6 +2277,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pickup_ammo_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585876426901662243, guid: 5d50a06adaa1cba4f9315a129b8bc84f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d50a06adaa1cba4f9315a129b8bc84f, type: 3}
