@@ -10,9 +10,9 @@ public class MonsterSpawnerController : MonoBehaviour {
 	[SerializeField] private int distribution = 0;
 	[SerializeField] private LayerMask lm = 0;
 	[SerializeField] private bool spawnMonsters = false;
+	[SerializeField] private float spawnInterval = 1.5f;
 
 	private int maxSpawnCount = 0;
-	private float spawnInterval = 0;
 	private float spawnTimer = 0.0f;
 	private List<GameObject> spawnedMonsters = new List<GameObject>();
 
@@ -29,8 +29,11 @@ public class MonsterSpawnerController : MonoBehaviour {
 		if (maxSpawnCount == 0)
 			maxSpawnCount = 1;
 
-		spawnInterval = 1.5f;
 		spawnedMonsters.Clear();
+
+		if (spawnPositions.Count == 0) {
+			SetSpawnPositions();
+		}
 	}
 
 	private void Update() {
@@ -48,11 +51,10 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	public void SetSpawnPositions() {
-#if UNITY_EDITOR
-		// Logger.Print(roomGenerationController.GetEligiblePositions().Count.ToString());
-		return;
-#endif
-		
+		if (roomGenerationController == null) {
+			roomGenerationController = FindObjectOfType<RoomGenerationController>();
+		}
+
 		for (int i = 0; i < roomGenerationController.GetEligiblePositions().Count; i++) {
 			spawnPositions.Add(roomGenerationController.GetEligiblePositions()[i]);
 		}
@@ -74,6 +76,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void CheckPosition() {
+		Logger.Print("spawnPos:_ " + spawnPositions.Count);
 		Vector3 pos = spawnPositions[Random.Range(0, spawnPositions.Count)];
 		if (TooCloseToPlayer(pos)) {
 			CheckPosition();

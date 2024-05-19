@@ -49,6 +49,7 @@ public class DecalController : MonoBehaviour {
     }
 
     public void SpawnDecal(Vector3 pos, Vector3 dir, float distance) {
+        return;
         if (decals.Count + 1 > maxDecals) {
             Destroy(decals[0]);
             decalSpaces.RemoveAt(0);

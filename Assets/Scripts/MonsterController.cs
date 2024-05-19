@@ -13,6 +13,7 @@ public enum State {
 }
 
 public class MonsterController : MonoBehaviour {
+    [SerializeField] private bool canAttack = true;
     [SerializeField] private LayerMask lm = 0;
     [SerializeField] private GameObject bloodPrefab = null;
 
@@ -80,6 +81,8 @@ public class MonsterController : MonoBehaviour {
         Ray forwardRay = new Ray(transform.position + new Vector3(0, 1, 0), -dir.normalized * 2f);
         Debug.DrawRay(forwardRay.origin, forwardRay.direction, Color.green);
         if (Physics.Raycast(forwardRay, out RaycastHit hit, 2f, lm)) {
+            if (!canAttack)
+                return;
             Attack();
         }
     }
@@ -102,6 +105,7 @@ public class MonsterController : MonoBehaviour {
         UpdateState(State.DEAD);
         GameObject blood = Instantiate(bloodPrefab);
         blood.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        PickupSpawnController.Instance.CheckSpawnChance(transform.position);
         Destroy(gameObject);
     }
 

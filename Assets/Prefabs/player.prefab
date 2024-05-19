@@ -764,19 +764,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5345709339361463435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07447011210cdff4fbff84e2113bd05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ditherShader: {fileID: 4800000, guid: 29e02ab0a38d95344960bd8903b4955b, type: 3}
-  spread: 0.076
-  redColorCount: 13
-  greenColorCount: 13
-  blueColorCount: 13
-  bayerLevel: 2
-  downSamples: 0
-  pointFilterDown: 1
+  spread: 1
+  redColorCount: 2
+  greenColorCount: 2
+  blueColorCount: 2
+  bayerLevel: 0
+  threshold: 0.026
 --- !u!1 &5345709339478519742
 GameObject:
   m_ObjectHideFlags: 0

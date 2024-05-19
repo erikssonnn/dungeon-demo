@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using UnityEditor;
+using Logger = erikssonn.Logger;
 using Random = UnityEngine.Random;
 
 [CustomEditor(typeof(RoomGenerationController))]
@@ -84,10 +85,13 @@ public class RoomGenerationController : MonoBehaviour {
 
     private Tile[,] grid = null;
     private int retries = 0;
-    private List<Vector3> eligibleSpawnPositions = new List<Vector3>();
+    [SerializeField] private List<Vector3> eligibleSpawnPositions = new List<Vector3>();
 
     public int GetMapSize() => mapSize;
-    public List<Vector3> GetEligiblePositions() => eligibleSpawnPositions;
+    public List<Vector3> GetEligiblePositions() {
+        Logger.Print("eligibleSpawnPositions: " + eligibleSpawnPositions.Count);
+        return eligibleSpawnPositions;
+    }
 
     private void OnDrawGizmos() {
         if (drawGizmos) {
@@ -173,6 +177,7 @@ public class RoomGenerationController : MonoBehaviour {
     }
 
     private void SpawnPlayer() {
+        Logger.Print("Spawn player; " + eligibleSpawnPositions.Count);
         player.transform.position = eligibleSpawnPositions[Random.Range(0, eligibleSpawnPositions.Count - 1)] + new Vector3(0, 1, 0);
         FindObjectOfType<MonsterSpawnerController>().SetSpawnPositions();
     }

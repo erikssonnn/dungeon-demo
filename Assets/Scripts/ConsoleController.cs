@@ -1,11 +1,15 @@
+using Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Logger = erikssonn.Logger;
 
 public class ConsoleController : MonoBehaviour {
     [SerializeField] private GameObject console = null;
     [SerializeField] private Text output = null;
     [SerializeField] private Text inputText = null;
+    [SerializeField] private ConsoleSave consoleSaveData = null;
+    
     private static readonly string[] commands = { "debug", "noclip", "clear", "spawn", "god", "onehit" };
     private bool active = false;
     private InputKey input = new InputKey();
@@ -20,6 +24,7 @@ public class ConsoleController : MonoBehaviour {
         mc = FindObjectOfType<MovementController>();
         input = InputController.Instance.InputKey;
         console.SetActive(false);
+        LoadSavedConsoleCommands();
     }
 
     private void Update() {
@@ -56,6 +61,16 @@ public class ConsoleController : MonoBehaviour {
         }
     }
 
+    private void LoadSavedConsoleCommands() {
+        foreach (ConsoleSaveAsset data in consoleSaveData.consoleSaves) {
+            if (!IsValidCommand(data.key)) {
+                Logger.Print("Tried to run preset console command but it was invalid!");
+                continue;
+            }
+            ExecuteCommand(data.key, data.value);
+        }
+    }
+    
     public void ToggleConsole() {
         active = !active;
         console.SetActive(active);

@@ -7,6 +7,7 @@ public class UiController : MonoBehaviour {
     public Image interactImage = null;
     public Text ammoText = null;
     public Text gunText = null;
+    public Text versionText = null;
 
     private static UiController instance;
 
