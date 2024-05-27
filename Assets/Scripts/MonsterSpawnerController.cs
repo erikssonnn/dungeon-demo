@@ -76,7 +76,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void CheckPosition() {
-		Logger.Print("spawnPos:_ " + spawnPositions.Count);
+		// Logger.Print("spawnPos:_ " + spawnPositions.Count);
 		Vector3 pos = spawnPositions[Random.Range(0, spawnPositions.Count)];
 		if (TooCloseToPlayer(pos)) {
 			CheckPosition();

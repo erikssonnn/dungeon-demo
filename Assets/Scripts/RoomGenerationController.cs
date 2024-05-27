@@ -89,7 +89,7 @@ public class RoomGenerationController : MonoBehaviour {
 
     public int GetMapSize() => mapSize;
     public List<Vector3> GetEligiblePositions() {
-        Logger.Print("eligibleSpawnPositions: " + eligibleSpawnPositions.Count);
+        // Logger.Print("eligibleSpawnPositions: " + eligibleSpawnPositions.Count);
         return eligibleSpawnPositions;
     }
 

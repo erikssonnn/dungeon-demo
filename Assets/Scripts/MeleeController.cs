@@ -1,5 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Logger = erikssonn.Logger;
+
+[Serializable]
+public class MeleeDisableMonobehaviours {
+    public MonoBehaviour script = null;
+    [FormerlySerializedAs("wasOn")] [HideInInspector] public bool scriptWasEnabled = false;
+    public bool useGameObject = false;
+    [HideInInspector] public bool gameObjectWasEnabled = false;
+}
 
 public class MeleeController : MonoBehaviour {
     #region Variable struct
@@ -17,18 +28,18 @@ public class MeleeController : MonoBehaviour {
     #endregion
 
     [SerializeField] private LayerMask lm = new LayerMask();
-    [SerializeField] private MonoBehaviour[] scripts = null;
+    [SerializeField] private MeleeDisableMonobehaviours[] monobehaviours = null;
 
     [SerializeField] private MeleeVariables meleeVar = new MeleeVariables();
-    [SerializeField] private float damage = 100.0f;
-
+    [SerializeField] private int damage = 100;
+    [SerializeField] private Animator meleeAnim = null;
+    
     private Vector3 origin = Vector3.zero;
     private Camera cam = null;
     private bool meleeing = false;
 
     private void Start() {
         cam = Camera.main;
-        origin = cam.transform.position;
     }
 
     private void OnDrawGizmos() {
@@ -46,11 +57,12 @@ public class MeleeController : MonoBehaviour {
     }
 
     private void Update() {
+        origin = cam.transform.position;
         MeleeInitiator();
     }
 
-    // to be added by animation event
-    public void StartMelee() {
+    private void StartMelee() {
+        StartCoroutine(ResetMelee());
         float temp = 69.0f; // lmao
         Transform hitObj = null;
         RaycastHit lateHit = new RaycastHit();
@@ -73,30 +85,57 @@ public class MeleeController : MonoBehaviour {
                     continue;
                 temp = dist;
                 lateHit = hit;
-                hitObj = hit.transform;
+                hitObj = lateHit.transform;
             }
         }
 
-        if (hitObj == null)
+        if (hitObj == null) {
             return;
+        }
+
         StartCoroutine(ScreenShake.Instance.Shake(4f, 0.2f));
-        // add enemy hit here use lateHit
+        
+        MonsterController hitMonster = hitObj.transform.GetComponentInParent<MonsterController>();
+        if (hitMonster == null) {
+            return;
+        }
+
+        hitMonster.UpdateHealth(-damage);
     }
 
-    // to be added by animation event
-    public void ResetMelee() {
-        foreach (MonoBehaviour script in scripts) {
-            script.enabled = true;
+    private IEnumerator ResetMelee() {
+        yield return new WaitForSeconds(0.2f);
+        meleeing = false;
+        foreach (MeleeDisableMonobehaviours behaviour in monobehaviours) {
+            if (behaviour.useGameObject) {
+                if (behaviour.gameObjectWasEnabled) {
+                    behaviour.script.gameObject.SetActive(true);
+                }
+            } else {
+                if (behaviour.scriptWasEnabled) {
+                    behaviour.script.enabled = true;
+                }
+            }
         }
+        meleeAnim.SetBool("Meleeing", meleeing);
     }
 
     private void MeleeInitiator() {
-        if (!Input.GetKeyDown(KeyCode.F) || meleeing)
+        if (!Input.GetKeyDown(KeyCode.Q) || meleeing)
             return;
-        
         meleeing = true;
-        foreach (MonoBehaviour script in scripts) {
-            script.enabled = false;
+        
+        foreach (MeleeDisableMonobehaviours behaviour in monobehaviours) {
+            if (behaviour.useGameObject) {
+                behaviour.gameObjectWasEnabled = behaviour.script.gameObject.activeInHierarchy;
+                behaviour.script.gameObject.SetActive(false);
+            } else {
+                behaviour.scriptWasEnabled = behaviour.script.enabled;
+                behaviour.script.enabled = false;
+            }
         }
+        
+        meleeAnim.SetBool("Meleeing", meleeing);
+        StartMelee();
     }
 }
