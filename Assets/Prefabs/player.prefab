@@ -675,6 +675,7 @@ GameObject:
   - component: {fileID: 5345709339361463439}
   - component: {fileID: 5345709339361463436}
   - component: {fileID: 5345709339361463437}
+  - component: {fileID: 1145518177}
   m_Layer: 8
   m_Name: camera
   m_TagString: MainCamera
@@ -807,6 +808,21 @@ MonoBehaviour:
   decalTexScale: {x: 0, y: 0}
   isLowResolution: 0
   resolutions: {x: 0, y: 0}
+--- !u!114 &1145518177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5345709339361463435}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1bffaa05cc76c4db91d586b304a93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: aa93bfb7487db354b972ebe6a092268f, type: 3}
+  blurStrength: 2.2
+  blurWidth: 1
 --- !u!1 &5345709339478519742
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,11 +894,11 @@ MonoBehaviour:
   mouseSensitivity: 10
   jumpForce: 24
   dashRate: 1
-  dashLength: 15
-  dashFov: 61
+  dashLength: 20
   dashSpeed: 35
   fallAcceleration: 1.5
   jumpAcceleration: 1.5
+  dashFov: 78
 --- !u!114 &1708433168205113295
 MonoBehaviour:
   m_ObjectHideFlags: 0

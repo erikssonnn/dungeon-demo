@@ -1568,6 +1568,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1145518175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5345709339361463435, guid: 4cae1b99c22e984488c1e40ec74b04df,
+    type: 3}
+  m_PrefabInstance: {fileID: 1714182236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1145518177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145518175}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1bffaa05cc76c4db91d586b304a93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: aa93bfb7487db354b972ebe6a092268f, type: 3}
+  blurStrength: 2.2
+  blurWidth: 1
 --- !u!1 &1177386554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,6 +2200,16 @@ PrefabInstance:
       propertyPath: pausedText
       value: 
       objectReference: {fileID: 587254094}
+    - target: {fileID: 5345709339478519619, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: dashSpeed
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345709339478519619, guid: 4cae1b99c22e984488c1e40ec74b04df,
+        type: 3}
+      propertyPath: dashLength
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5345709339478519621, guid: 4cae1b99c22e984488c1e40ec74b04df,
         type: 3}
       propertyPath: m_RootOrder

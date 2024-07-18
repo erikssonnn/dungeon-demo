@@ -12,25 +12,30 @@ public class MovementController : MonoBehaviour {
     [SerializeField] private float dashSpeed;
     [SerializeField] private float fallAcceleration;
     [SerializeField] private float jumpAcceleration;
+    [SerializeField] private float dashFov = 0.0f;
 
     private float mouseX = 0f;
     private float mouseY = 0f;
+    private const float minX = -90f;
+    private const float maxX = 90f;
 
     private float verticalVelocity = 0;
     private float speed;
     private float timeSinceSprint = 1.0f;
-    
-    private CharacterController cc;
-    private Camera cam = null;
-    private UiController ui = null;
 
-    private const float minX = -90f;
-    private const float maxX = 90f;
     private float nextDash = 0.0f;
     private Vector3 dir = Vector3.zero;
     private List<Vector3> positioningList = new List<Vector3>();
     private float fallForce = 1.5f;
-
+    
+    private float normalFov = 0.0f;
+    private float halfFovDist = 0.0f;
+    
+    private CharacterController cc;
+    private Camera cam = null;
+    private UiController ui = null;
+    private MotionBlur blur = null;
+    
     private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -43,6 +48,7 @@ public class MovementController : MonoBehaviour {
         }
 
         cam = Camera.main;
+        blur = cam.GetComponent<MotionBlur>();
         cc = GetComponent<CharacterController>();
     }
 
@@ -54,14 +60,17 @@ public class MovementController : MonoBehaviour {
 
     private void AdditionalPositioning(Vector3 pos) {
         float step = dashSpeed * Time.deltaTime;
-        float dist = Vector3.Distance(transform.position, pos); //Vector3.SqrMagnitude(transform.position - pos); //optimized
+        float dist = Vector3.Distance(transform.position, pos);
 
         if (dist > 0.1f) {
             transform.position = Vector3.MoveTowards(transform.position, pos, step);
-            cam.fieldOfView = dist >= half ? Mathf.Lerp(cam.fieldOfView, endFov, step * 0.25f) : Mathf.Lerp(cam.fieldOfView, startFov, step * 0.5f);
+            cam.fieldOfView = dist >= halfFovDist ? Mathf.Lerp(cam.fieldOfView, dashFov, step * 0.25f) : Mathf.Lerp(cam.fieldOfView, normalFov, step * 0.25f);
+            blur.blurWidth = dist >= halfFovDist ? Mathf.Lerp(blur.blurWidth, 1.25f, step * 0.25f) : Mathf.Lerp(blur.blurWidth, 0.0f, step * 0.25f);
         } else {
             positioningList.Remove(positioningList[0]);
-            cam.fieldOfView = startFov;
+            cam.fieldOfView = normalFov;
+            blur.blurWidth = 0.0f;
+            blur.enabled = false;
             cc.enabled = true;
         }
     }
@@ -146,13 +155,9 @@ public class MovementController : MonoBehaviour {
             pos = new Vector3(hit.point.x - newDir.x * cc.radius, transform.position.y, hit.point.z - newDir.z * cc.radius);
         }
 
-        // startFov = cam.fieldOfView;
+        normalFov = cam.fieldOfView;
+        blur.enabled = true;
         positioningList.Add(pos);
-        // endFov = cam.fieldOfView + dashFov;
-        // half = Vector3.Distance(transform.position, pos) * 0.5f;
-    }
-
-    private void OnGUI() {
-        GUI.Label(new Rect(10, 10, 100, 100), verticalVelocity.ToString("F2"));
+        halfFovDist = Vector3.Distance(transform.position, pos) * 0.5f;
     }
 }
