@@ -29,6 +29,7 @@ public class GunController : MonoBehaviour {
 
     [SerializeField] private GameObject muzzleFlashPrefab = null;
     [SerializeField] private GameObject muzzleFlashOrigin = null;
+    [SerializeField] private ParticleSystem cartridgeParticleSystem = null;
 
     private HandController handController = null;
     
@@ -139,6 +140,10 @@ public class GunController : MonoBehaviour {
             return;
         }
 
+        if (cartridgeParticleSystem != null) {
+            cartridgeParticleSystem.Play();
+        }
+        
         GameObject newLine = Instantiate(line);
         newLine.transform.position = muzzleFlashOrigin.transform.position;
         newLine.transform.eulerAngles = cam.transform.eulerAngles;
