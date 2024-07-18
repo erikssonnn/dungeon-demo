@@ -2256,6 +2256,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 888080081, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
+      propertyPath: ammos.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 888080081, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
+      propertyPath: guns.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1145838316, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
       propertyPath: m_RenderAlignment
       value: 2
