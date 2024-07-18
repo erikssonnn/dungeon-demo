@@ -72,8 +72,8 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _xMultiplier: 60
-    - _yMultiplier: 50
+    - _xMultiplier: 90
+    - _yMultiplier: 75
     m_Colors:
     - _Color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
     - _EmissionColor: {r: 2.670157, g: 0, b: 0, a: 1}

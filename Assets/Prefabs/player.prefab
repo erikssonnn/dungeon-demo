@@ -675,7 +675,6 @@ GameObject:
   - component: {fileID: 5345709339361463439}
   - component: {fileID: 5345709339361463436}
   - component: {fileID: 5345709339361463437}
-  - component: {fileID: 6162036876040533770}
   m_Layer: 8
   m_Name: camera
   m_TagString: MainCamera
@@ -761,7 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f197dba5e70a994c8b18fb904825c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelSize: {x: 420, y: 550}
+  pixelSize: {x: 550, y: 650}
   screenSize: {x: 1080, y: 4400}
   colorPrecision: 255
 --- !u!114 &5345709339361463437
@@ -808,25 +807,6 @@ MonoBehaviour:
   decalTexScale: {x: 0, y: 0}
   isLowResolution: 0
   resolutions: {x: 0, y: 0}
---- !u!114 &6162036876040533770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5345709339361463435}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07447011210cdff4fbff84e2113bd05a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ditherShader: {fileID: 4800000, guid: 29e02ab0a38d95344960bd8903b4955b, type: 3}
-  spread: 1
-  redColorCount: 2
-  greenColorCount: 2
-  blueColorCount: 2
-  bayerLevel: 0
-  threshold: 0.026
 --- !u!1 &5345709339478519742
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,15 +874,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d11f2fa27d3347e4f944d32762d44e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 9
+  movementSpeed: 12
   mouseSensitivity: 10
-  jumpForce: 14
-  crouchedPos: {x: 0, y: 0, z: 0}
+  jumpForce: 24
   dashRate: 1
   dashLength: 15
   dashFov: 61
   dashSpeed: 35
   fallAcceleration: 1.5
+  jumpAcceleration: 1.5
 --- !u!114 &1708433168205113295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,10 +944,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   monobehaviours:
-  - script: {fileID: 888080081}
-    scriptWasEnabled: 0
-    useGameObject: 0
-    gameObjectWasEnabled: 0
   - script: {fileID: 5345709339199221338}
     scriptWasEnabled: 0
     useGameObject: 1
@@ -976,9 +952,13 @@ MonoBehaviour:
     scriptWasEnabled: 0
     useGameObject: 1
     gameObjectWasEnabled: 0
+  - script: {fileID: 888080081}
+    scriptWasEnabled: 0
+    useGameObject: 0
+    gameObjectWasEnabled: 0
   meleeVar:
     showDebug: 1
-    range: 1.86
+    range: 3.93
     rayAmount: 3
     raySpread: 4.08
   damage: 100
@@ -2413,6 +2393,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: axe
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3a650504f8589d4da6c514de6ca9ced,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3a650504f8589d4da6c514de6ca9ced, type: 3}
