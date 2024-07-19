@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using erikssonn;
 using UnityEngine;
 using Logger = erikssonn.Logger;
 using Random = UnityEngine.Random;
@@ -36,6 +37,14 @@ public class MonsterSpawnerController : MonoBehaviour {
 		}
 	}
 
+	public void RemoveListedMonster(GameObject monster) {
+		if (!spawnedMonsters.Contains(monster)) {
+			Logger.Print("Tried to remove monster that doesnt exist!", LogLevel.WARNING);
+			return;
+		}
+		spawnedMonsters.Remove(monster);
+	}
+
 	private void Update() {
 		if (spawnMonsters) {
 			MonsterSpawnerCheck();
@@ -61,8 +70,10 @@ public class MonsterSpawnerController : MonoBehaviour {
 	}
 
 	private void MonsterSpawnerCheck() {
-		if (spawnedMonsters.Count >= maxSpawnCount)
+		if (spawnedMonsters.Count >= maxSpawnCount) {
+			Logger.Print("Max monsterspawns reached");
 			return;
+		}
 		
 		spawnTimer += Time.deltaTime;
 		if (spawnTimer > spawnInterval) {

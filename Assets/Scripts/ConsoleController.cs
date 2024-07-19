@@ -64,7 +64,7 @@ public class ConsoleController : MonoBehaviour {
     private void LoadSavedConsoleCommands() {
         foreach (ConsoleSaveAsset data in consoleSaveData.consoleSaves) {
             if (!IsValidCommand(data.key)) {
-                Logger.Print("Tried to run preset console command but it was invalid!");
+                Logger.Print("Tried to run preset console command but it was invalid: " +  data.key);
                 continue;
             }
             ExecuteCommand(data.key, data.value);

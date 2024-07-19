@@ -20,4 +20,4 @@ MonoBehaviour:
   - key: god
     value: 1
   - key: onehit
-    value: 1
+    value: 0

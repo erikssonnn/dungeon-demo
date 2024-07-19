@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146da472c6cfd0d40baa518508f7002e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupType: 2
+  pickupType: 1
   amount: 10
   bobSpeed: 2
   bobStrength: 0.25

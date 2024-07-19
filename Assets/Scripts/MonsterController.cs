@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Timeline;
-using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public enum State {
@@ -52,15 +50,6 @@ public class MonsterController : MonoBehaviour {
     // }
 
     private void Update() {
-        // debug
-        // if (Input.GetKeyDown((KeyCode.M))) {
-        //     UpdateState(State.IDLE);
-        // }
-        //
-        // if (Input.GetKeyDown((KeyCode.N))) {
-        //     UpdateState(State.CHASE);
-        // }
-    
         Chase();
     }
 
@@ -106,6 +95,7 @@ public class MonsterController : MonoBehaviour {
         GameObject blood = Instantiate(bloodPrefab);
         blood.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         PickupSpawnController.Instance.CheckSpawnChance(transform.position);
+        FindObjectOfType<MonsterSpawnerController>().RemoveListedMonster(gameObject);
         Destroy(gameObject);
     }
 
