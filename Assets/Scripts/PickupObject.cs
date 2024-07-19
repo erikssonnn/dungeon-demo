@@ -4,7 +4,6 @@ using Logger = erikssonn.Logger;
 
 public enum PickupType {
     BULLETS_SMALL,
-    BULLETS_BIG,
     BULLETS_SLUGS
 }
 

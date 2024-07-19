@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class GunInfo {
     public string name = "temp";
-    public int ammoType = 0;
+    public PickupType ammoType = PickupType.BULLETS_SMALL;
     public int startAmmo = 200;
     public float reloadSpeed = 1;
 
@@ -42,6 +42,7 @@ public class GunController : MonoBehaviour {
     private bool onehit = false;
     private float oldSpeed = 0.0f;
     private float spread = 0.0f;
+    private int ammoTypeIndex = 0;
 
     public bool Onehit {
         get => onehit;
@@ -50,6 +51,7 @@ public class GunController : MonoBehaviour {
     
     private void Start() {
         ammo = gunInfo.magazineSize;
+        ammoTypeIndex = (int)gunInfo.ammoType;
 
         uiController = UiController.Instance;
         cam = Camera.main;
@@ -83,7 +85,7 @@ public class GunController : MonoBehaviour {
             return;
         if (!Input.GetKeyDown(KeyCode.R))
             return;
-        if (handController.Ammos[gunInfo.ammoType].amount <= 0)
+        if (handController.Ammos[ammoTypeIndex].amount <= 0)
             return;
 
         anim.SetTrigger("reloading");
@@ -93,12 +95,12 @@ public class GunController : MonoBehaviour {
 
     public void AReloadReady() {
         int countToFillMag = gunInfo.magazineSize - ammo;
-        if (countToFillMag <= handController.Ammos[gunInfo.ammoType].amount) {
+        if (countToFillMag <= handController.Ammos[ammoTypeIndex].amount) {
             ammo += countToFillMag;
-            handController.Ammos[gunInfo.ammoType].amount -= countToFillMag;
+            handController.Ammos[ammoTypeIndex].amount -= countToFillMag;
         } else {
-            ammo += handController.Ammos[gunInfo.ammoType].amount;
-            handController.Ammos[gunInfo.ammoType].amount = 0;
+            ammo += handController.Ammos[ammoTypeIndex].amount;
+            handController.Ammos[ammoTypeIndex].amount = 0;
         }
 
         anim.ResetTrigger("reloading");
@@ -110,7 +112,7 @@ public class GunController : MonoBehaviour {
     public void UpdateGunUi() {
         if (uiController == null)
             return;
-        uiController.ammoText.text = ammo + "/" + handController.Ammos[gunInfo.ammoType].amount;
+        uiController.ammoText.text = ammo + "/" + handController.Ammos[ammoTypeIndex].amount;
         uiController.gunText.text = name;
     }
 
@@ -131,9 +133,10 @@ public class GunController : MonoBehaviour {
             anim.SetBool("fire", false);
             return;
         }
-        
-        if (nextFire > Time.time)
+        if (nextFire > Time.time) {
+            anim.SetBool("fire", false);
             return;
+        }
         if (ammo <= 0) {
             anim.SetBool("fire", false);
             //play funny sound
