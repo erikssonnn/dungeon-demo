@@ -2256,31 +2256,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 543450653524212109, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.1877
-      objectReference: {fileID: 0}
-    - target: {fileID: 543450653524212109, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.1904
-      objectReference: {fileID: 0}
-    - target: {fileID: 543450653524212109, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.3783
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149338334007, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5345709339199221336, guid: 4cae1b99c22e984488c1e40ec74b04df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5345709339478519617, guid: 4cae1b99c22e984488c1e40ec74b04df,
         type: 3}
       propertyPath: pausedText
