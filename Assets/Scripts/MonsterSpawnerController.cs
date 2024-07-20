@@ -43,6 +43,7 @@ public class MonsterSpawnerController : MonoBehaviour {
 			return;
 		}
 		spawnedMonsters.Remove(monster);
+		GameController.Instance.UpdateScore(10);
 	}
 
 	private void Update() {

@@ -8,6 +8,7 @@ public class UiController : MonoBehaviour {
     public Text ammoText = null;
     public Text gunText = null;
     public Text versionText = null;
+    public Text gamemodeText = null;
 
     private static UiController instance;
 
