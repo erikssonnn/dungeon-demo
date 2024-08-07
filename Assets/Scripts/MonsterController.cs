@@ -20,6 +20,7 @@ public class MonsterController : MonoBehaviour {
     private NavMeshAgent agent = null;
     private Transform player = null;
     private int health = 100;
+    private bool dieOnceGuard = false;
     
     private void Start() {
         NullChecker();
@@ -88,9 +89,11 @@ public class MonsterController : MonoBehaviour {
     }
 
     private void Die(bool fromPlayer) {
+        if(dieOnceGuard == true)
+            return;
         if(fromPlayer)
-            ScoreController.Instance.UpdateScore(10);
-            
+            GameController.Instance.UpdateScore(10);
+        dieOnceGuard = true;
         UpdateState(State.DEAD);
         GameObject blood = Instantiate(bloodPrefab);
         blood.transform.SetPositionAndRotation(transform.position + new Vector3(0, 1, 0), Quaternion.identity);

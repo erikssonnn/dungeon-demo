@@ -1,7 +1,10 @@
 using System;
+using erikssonn;
 using UnityEngine;
+using Logger = erikssonn.Logger;
 
 public enum Gamemode { SCORE, TIME, LIMITLESS }
+public enum EndGameReason { DIED, TIME_WIN, SCORE_WIN }
 
 public class GameController : MonoBehaviour {
 	[Header("Player")]
@@ -9,7 +12,7 @@ public class GameController : MonoBehaviour {
 
 	[Header("Gamemode")]
 	[SerializeField] private Gamemode gamemode = Gamemode.SCORE;
-	[SerializeField] private int scoreGoal = 0;
+	[SerializeField] private int goal = 0; // can be either start time or goal score
 	
 	private int health = 0;
 	private bool god = false;
@@ -47,30 +50,50 @@ public class GameController : MonoBehaviour {
 		uiController = UiController.Instance;
 		if (uiController == null)
 			throw new Exception("Cant find uiController instance");
+
+		if (gamemode == Gamemode.TIME) {
+			timer = goal;
+		}
 		
 		UpdateHealth(startHealth);
 		UpdateGamemodeText();
 	}
 
 	private void Update() {
-		if (gamemode != Gamemode.TIME) 
+		if (gamemode == Gamemode.SCORE) 
 			return;
-		timer += Time.deltaTime;
+		timer += gamemode == Gamemode.LIMITLESS ? Time.deltaTime : -Time.deltaTime;
+		TimeWinCheck();
 		UpdateGamemodeText();
+	}
+
+	private void TimeWinCheck() {
+		if (gamemode != Gamemode.TIME)
+			return;
+		if (timer <= 0) {
+			EndGame(EndGameReason.TIME_WIN);
+		}
 	}
 
 	private void UpdateGamemodeText() {
 		uiController.gamemodeText.text = gamemode switch {
-			Gamemode.SCORE => "Score: " + score + "/" + scoreGoal,
-			Gamemode.TIME => "Time: " + timer + "s",
+			Gamemode.SCORE => "Score: " + score + "/" + goal,
+			Gamemode.TIME => "Time: " + timer.ToString("F1") + "s",
 			Gamemode.LIMITLESS => "Score (Limitless): " + score,
 			_ => throw new Exception("Gamemode switch default case hit!")
 		};
 	}
 
 	public void UpdateScore(int amount) {
+		if (gamemode == Gamemode.TIME)
+			return;
 		score += amount;
 		UpdateGamemodeText();
+		if (gamemode != Gamemode.SCORE)
+			return;
+		if (score >= goal) {
+			EndGame(EndGameReason.SCORE_WIN);
+		}
 	}
 	
 	public void UpdateHealth(int amount) {
@@ -85,8 +108,11 @@ public class GameController : MonoBehaviour {
 			Die();
 	}
 
-	private void Die() {
-		Debug.LogError("PLAYER DIED!");
-		Debug.Break();
+	private static void EndGame(EndGameReason reason) {
+		Logger.Print(reason.ToString(), LogLevel.FATAL);
+	}
+
+	private static void Die() {
+		EndGame(EndGameReason.DIED);
 	}
 }
