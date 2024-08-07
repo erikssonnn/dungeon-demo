@@ -47,7 +47,7 @@ public class InteractObject : MonoBehaviour {
         }
 
         int value = lootTable[0].value + Random.Range(-Mathf.RoundToInt(lootTable[0].value * 0.25f), Mathf.RoundToInt(lootTable[0].value * 0.25f));
-        ScoreController.Instance.UpdateScore(value);
+        // ScoreController.Instance.UpdateScore(value);
         Destroy(gameObject);
     }
 
