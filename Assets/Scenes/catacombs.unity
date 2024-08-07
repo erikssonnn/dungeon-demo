@@ -229,7 +229,7 @@ MonoBehaviour:
   lm:
     serializedVersion: 2
     m_Bits: 1
-  spawnMonsters: 1
+  spawnMonsters: 0
   spawnInterval: 2.5
 --- !u!114 &116161521
 MonoBehaviour:
@@ -2243,12 +2243,24 @@ PrefabInstance:
       value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
+      propertyPath: gunInfo.maxSpread
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
       propertyPath: gunInfo.screenshake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
+      propertyPath: gunInfo.spreadTangent
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
       propertyPath: gunInfo.bulletsPerShot
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
+      propertyPath: gunInfo.spreadMultiplier
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1825736252, guid: 4cae1b99c22e984488c1e40ec74b04df, type: 3}
       propertyPath: gunInfo.screenshakeAmount
