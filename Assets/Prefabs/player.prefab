@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4910,7 +4910,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9839,20 +9839,25 @@ MonoBehaviour:
   gunInfo:
     name: Sawed Off Shotgun
     ammoType: 1
-    startAmmo: 12
     reloadSpeed: 1
     fireRate: 1
     magazineSize: 4
-    damage: -150
-    spreadTangent: 0.01
-    spreadMultiplier: 2
-    maxSpread: 0.1
+    damage: -50
+    bulletsPerShot: 2
+    bulletsPerShotSpread: 2.5
+    screenshake: 1
+    screenshakeAmount: 12
+    screenshakeTime: 0.1
+    spreadTangent: 0.1
+    spreadMultiplier: 3
+    maxSpread: 0.6
   lm:
     serializedVersion: 2
     m_Bits: 2561
   blood: {fileID: 4445078989005434166, guid: 0e2e46ec031eaa44dae99b49392b129d, type: 3}
   line: {fileID: 178832873068589660, guid: f0641eacd6b29544bb1cbb9cafae8ceb, type: 3}
-  muzzleFlashPrefab: {fileID: 8681838319956896960}
+  muzzleFlashPrefab: {fileID: 193238979387167468, guid: a9141e8ccccd9d04a93a0be944a627e8,
+    type: 3}
   muzzleFlashOrigin: {fileID: 8681838319662294223}
   cartridgeParticleSystem: {fileID: 651733465}
 --- !u!1 &3286180815960821449
@@ -10402,11 +10407,15 @@ MonoBehaviour:
   gunInfo:
     name: PPSH
     ammoType: 0
-    startAmmo: 142
     reloadSpeed: 1
     fireRate: 0.1
     magazineSize: 71
     damage: -15
+    bulletsPerShot: 1
+    bulletsPerShotSpread: 1
+    screenshake: 1
+    screenshakeAmount: 2
+    screenshakeTime: 0.1
     spreadTangent: 0.01
     spreadMultiplier: 2
     maxSpread: 0.1
@@ -10747,6 +10756,10 @@ MonoBehaviour:
   - script: {fileID: 888080081}
     scriptWasEnabled: 0
     useGameObject: 0
+    gameObjectWasEnabled: 0
+  - script: {fileID: 1825736252}
+    scriptWasEnabled: 0
+    useGameObject: 1
     gameObjectWasEnabled: 0
   meleeVar:
     showDebug: 1
@@ -11211,11 +11224,15 @@ MonoBehaviour:
   gunInfo:
     name: KAR 98
     ammoType: 1
-    startAmmo: 16
     reloadSpeed: 1.5
     fireRate: 0.1
     magazineSize: 1
     damage: -100
+    bulletsPerShot: 1
+    bulletsPerShotSpread: 1
+    screenshake: 0
+    screenshakeAmount: 15
+    screenshakeTime: 0.1
     spreadTangent: 0.01
     spreadMultiplier: 1
     maxSpread: 0.01
@@ -11582,6 +11599,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 543450653524212109}
     m_Modifications:
+    - target: {fileID: 8681838319463171192, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0263
+      objectReference: {fileID: 0}
+    - target: {fileID: 8681838319463171192, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0002
+      objectReference: {fileID: 0}
     - target: {fileID: 8681838319463171195, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_Layer
@@ -11595,7 +11622,7 @@ PrefabInstance:
     - target: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_Name
-      value: muzzles
+      value: shotgun_muzzles
       objectReference: {fileID: 0}
     - target: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
@@ -11625,12 +11652,12 @@ PrefabInstance:
     - target: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.937
+      value: 4.935
       objectReference: {fileID: 0}
     - target: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: 0.348
       objectReference: {fileID: 0}
     - target: {fileID: 8681838320290221173, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
@@ -11682,6 +11709,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8681838320667978875, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.048
+      objectReference: {fileID: 0}
+    - target: {fileID: 8681838320667978875, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.043
+      objectReference: {fileID: 0}
     - target: {fileID: 8681838320839877150, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_Layer
@@ -11692,6 +11729,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8681838320839877151, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0609
+      objectReference: {fileID: 0}
+    - target: {fileID: 8681838320839877151, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.055
+      objectReference: {fileID: 0}
     - target: {fileID: 8681838321247597120, guid: 01f0ac5d43195e845bb33298fd0a4a20,
         type: 3}
       propertyPath: m_Layer
@@ -11701,18 +11748,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8681838321247597121, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 8681838321247597121, guid: 01f0ac5d43195e845bb33298fd0a4a20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0554
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01f0ac5d43195e845bb33298fd0a4a20, type: 3}
 --- !u!1 &8681838319662294223 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8681838320290221172, guid: 01f0ac5d43195e845bb33298fd0a4a20,
-    type: 3}
-  m_PrefabInstance: {fileID: 647866555}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8681838319956896960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8681838319463171195, guid: 01f0ac5d43195e845bb33298fd0a4a20,
     type: 3}
   m_PrefabInstance: {fileID: 647866555}
   m_PrefabAsset: {fileID: 0}
