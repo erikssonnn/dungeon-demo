@@ -104,6 +104,10 @@ public class GameController : MonoBehaviour {
 		float percentageHealth = (float)health / (float)startHealth;
 		UiController.Instance.healthBar.fillAmount = percentageHealth;
 
+		if (amount < 0) {
+			ScreenShake.Instance.StartCoroutine(ScreenShake.Instance.Shake(50, 0.25f));
+		}
+
 		if (health <= 0)
 			Die();
 	}
