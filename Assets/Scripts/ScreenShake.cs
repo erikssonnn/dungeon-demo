@@ -69,10 +69,10 @@ public class ScreenShake : MonoBehaviour {
             desiredPos = new Vector3(right, up, 0);
             camDesiredPos = new Vector3(right, up, 0);
 
-            shakeOrigin.localPosition = Vector3.MoveTowards(shakeOrigin.localPosition, desiredPos * 0.2f + startPos, step);
-            shakeCam.localPosition = Vector3.MoveTowards(shakeCam.localPosition, camDesiredPos * 0.2f + camStartPos, step);
+            shakeOrigin.localPosition = Vector3.MoveTowards(shakeOrigin.localPosition, desiredPos * 0.1f + startPos, step);
+            shakeCam.localPosition = Vector3.MoveTowards(shakeCam.localPosition, camDesiredPos * 0.5f + camStartPos, step);
 
-            desiredRot = new Vector3(right, up, 0) * shakeRotationTangent;
+            desiredRot = new Vector3(right, up, 0) * (shakeRotationTangent * 0.1f);
             Quaternion dest = Quaternion.Euler(startRot + desiredRot);
             camDesiredRot = new Vector3(right, up, 0) * shakeRotationTangent;
             Quaternion camDest = Quaternion.Euler(camStartRot + camDesiredRot);
